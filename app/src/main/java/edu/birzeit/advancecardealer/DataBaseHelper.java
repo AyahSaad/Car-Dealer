@@ -49,29 +49,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.rawQuery("SELECT * FROM USERS", null);
     }
 
-    public User getUserByEmailAndPassword(String email, String password) {
-        SQLiteDatabase db = getReadableDatabase();
-        User user = null;
+    public boolean verifyLogin(String email, String password) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String[] columns = {"EMAIL", "PASSWORD"};
+        String selection = "EMAIL = ? AND PASSWORD = ?";
+        String[] selectionArgs = {email, password};
 
-        // Query to check if a user with the given email and password exists
-        Cursor cursor = db.rawQuery("SELECT * FROM USERS WHERE EMAIL = ? AND PASSWORD = ?", new String[]{email, password});
+       /* The result of this query is stored in a Cursor object.*/
+        Cursor cursor = sqLiteDatabase.query("USERS", columns, selection, selectionArgs, null, null, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
-            // Retrieve user data from the cursor using column indices
-            user = new User();
-            user.setId(cursor.getInt(0));
-            user.setFirstName(cursor.getString(1));
-            user.setLastName(cursor.getString(2));
-            user.setEmail(cursor.getString(3));
-            user.setPassword(cursor.getString(4));
-            user.setGender(cursor.getString(5));
-            user.setCountry(cursor.getString(6));
-            user.setCity(cursor.getString(7));
-            user.setType(cursor.getString(8));
-            user.setPhone(cursor.getString(9));
-            cursor.close();
+        /* This method moves the cursor to the first row of the result set.
+        If the result set is not empty (i.e., there is at least one row matching the criteria),
+        this method returns true, indicating a valid login */
+        boolean isValidLogin = cursor.moveToFirst(); // Move to the first row of the result
+
+        cursor.close();
+        return isValidLogin;
         }
-        return user;
-    }
-
 }
