@@ -1,10 +1,6 @@
 package edu.birzeit.advancecardealer;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-
-import java.util.Map;
-
 public class SharedPrefManager {
         private static final String SHARED_PREF_NAME = "My Shared Preference";
         private static final int SHARED_PREF_PRIVATE = Context.MODE_PRIVATE;

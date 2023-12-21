@@ -43,10 +43,7 @@ public class LoginPage extends AppCompatActivity {
             Email.setText(sharedPrefManager.readString("email","noValue"));
             Password.setText(sharedPrefManager.readString("password","noValue"));
         }
-
        // sharedPrefManager.clearAllEntries();
-
-        // Todo the remember me must first check if email and password are in the database then store it in sharedpref
 
         rememberMeCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
