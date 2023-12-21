@@ -1,7 +1,11 @@
 package edu.birzeit.advancecardealer;
 import android.content.Context;
 import android.content.SharedPreferences;
-    public class SharedPrefManager {
+import android.util.Log;
+
+import java.util.Map;
+
+public class SharedPrefManager {
         private static final String SHARED_PREF_NAME = "My Shared Preference";
         private static final int SHARED_PREF_PRIVATE = Context.MODE_PRIVATE;
         private static SharedPrefManager ourInstance = null;
@@ -25,6 +29,18 @@ import android.content.SharedPreferences;
         public String readString(String key, String defaultValue) {
             return sharedPreferences.getString(key, defaultValue);
         }
+    //  method to remove a specific entry from SharedPreferences
+    public void removeEntry(String key) {
+        editor.remove(key);
+        editor.apply();
+    }
+
+    //  method to clear all entries from SharedPreferences
+    public void clearAllEntries() {
+        editor.clear();
+        editor.apply();
+    }
+
     }
 
 
