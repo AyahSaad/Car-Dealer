@@ -25,17 +25,17 @@ public class SharedPrefManager {
         public String readString(String key, String defaultValue) {
             return sharedPreferences.getString(key, defaultValue);
         }
-    //  method to remove a specific entry from SharedPreferences
-    public void removeEntry(String key) {
-        editor.remove(key);
-        editor.apply();
-    }
+         //  method to remove a specific entry from SharedPreferences
+        public void removeEntry(String key) {
+            editor.remove(key);
+            editor.apply();
+        }
 
-    //  method to clear all entries from SharedPreferences
-    public void clearAllEntries() {
-        editor.clear();
-        editor.apply();
-    }
+       //  method to clear all entries from SharedPreferences
+        public void clearAllEntries() {
+            editor.clear();
+            editor.apply();
+       }
 
     }
 
