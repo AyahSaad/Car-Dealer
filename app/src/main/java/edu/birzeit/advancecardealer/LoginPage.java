@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import edu.birzeit.advancecardealer.user.ContactUs;
 import edu.birzeit.advancecardealer.user.HomePage;
 
 public class LoginPage extends AppCompatActivity {
@@ -21,6 +23,8 @@ public class LoginPage extends AppCompatActivity {
     CheckBox rememberMeCheckBox;
     SharedPrefManager sharedPrefManager;
     Intent intent;
+
+    Intent Adminintent;
     private TextView textViewStoredEmail;
     private TextView textViewStoredPassword;
 
@@ -37,13 +41,14 @@ public class LoginPage extends AppCompatActivity {
         DataBaseHelper dataBaseLogin = new DataBaseHelper(LoginPage.this, "CarsDatabase", null, 1);
         sharedPrefManager = SharedPrefManager.getInstance(this);
         intent = new Intent(LoginPage.this, HomePage.class);
+        Adminintent = new Intent(LoginPage.this, ContactUs.class);
+
 
         // Todo if it in the shared prefernce, the next time users log in, they won't need to re-enter their email.
         // Load saved email and password from SharedPreferences
-        Email.setText(sharedPrefManager.readString("email","noValue"));
+       /* Email.setText(sharedPrefManager.readString("email","noValue"));
         Password.setText(sharedPrefManager.readString("password","noValue"));
-        rememberMeCheckBox.setChecked(true); // Set the checkbox state
-
+        rememberMeCheckBox.setChecked(true); // Set the checkbox state*/
 
         rememberMeCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +59,8 @@ public class LoginPage extends AppCompatActivity {
                     if (dataBaseLogin.verifyLogin(Email.getText().toString(), Password.getText().toString())) {
                         sharedPrefManager.writeString("email",Email.getText().toString());
                         sharedPrefManager.writeString("password",Password.getText().toString());
+                        sharedPrefManager.writeString("rememberMeCheckBox",rememberMeCheckBox.getText().toString());
+                        System.out.print(rememberMeCheckBox.getText().toString());
                         Toast.makeText(LoginPage.this, "Email and password exist in database", Toast.LENGTH_SHORT).show();
                     } else {
                         // If not found in the database, uncheck "Remember Me" and show a message
@@ -78,7 +85,14 @@ public class LoginPage extends AppCompatActivity {
                     // Toast.makeText(LoginPage.this, "Values written to shared Preferences", Toast.LENGTH_SHORT).show();
                 }
                 if (dataBaseLogin.verifyLogin(Email.getText().toString(), Password.getText().toString())) {
+                    Cursor Type= dataBaseLogin.getType(Email.getText().toString());
                     Toast.makeText(LoginPage.this, "Login successful", Toast.LENGTH_SHORT).show();
+                  // Todo
+                    if(Type.moveToNext()){
+                        if(Type.getString(Type.getColumnIndex("TYPE"))=="Admin"){
+                            startActivity((Adminintent));
+                        }
+                    }
                     startActivity(intent);
                 } else {
                     Toast.makeText(LoginPage.this, "Login failed. Check your credentials", Toast.LENGTH_SHORT).show();

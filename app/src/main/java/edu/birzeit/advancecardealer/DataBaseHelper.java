@@ -49,6 +49,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.rawQuery("SELECT * FROM USERS", null);
     }
 
+    public Cursor getType(String email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM USERS WHERE '"+email+"' = EMAIL", null);
+    }
     public boolean verifyLogin(String email, String password) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         String[] columns = {"EMAIL", "PASSWORD"};
