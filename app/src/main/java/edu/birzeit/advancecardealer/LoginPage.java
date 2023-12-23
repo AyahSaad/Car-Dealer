@@ -38,12 +38,12 @@ public class LoginPage extends AppCompatActivity {
         sharedPrefManager = SharedPrefManager.getInstance(this);
         intent = new Intent(LoginPage.this, HomePage.class);
 
-        // Load saved email and password from SharedPreferences if "Remember Me" is checked
-        if (rememberMeCheckBox.isChecked()) {
-            Email.setText(sharedPrefManager.readString("email","noValue"));
-            Password.setText(sharedPrefManager.readString("password","noValue"));
-        }
-       // sharedPrefManager.clearAllEntries();
+        // Todo if it in the shared prefernce, the next time users log in, they won't need to re-enter their email.
+        // Load saved email and password from SharedPreferences
+        Email.setText(sharedPrefManager.readString("email","noValue"));
+        Password.setText(sharedPrefManager.readString("password","noValue"));
+        rememberMeCheckBox.setChecked(true); // Set the checkbox state
+
 
         rememberMeCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,15 +84,13 @@ public class LoginPage extends AppCompatActivity {
                     Toast.makeText(LoginPage.this, "Login failed. Check your credentials", Toast.LENGTH_SHORT).show();
                 }
 
-                // Display stored email and password in TextViews
+                // Display stored email and password in TextViews for testing
                 textViewStoredEmail.setText(sharedPrefManager.readString("email", ""));
                 textViewStoredPassword.setText( sharedPrefManager.readString("password", ""));
             }
 
         });
     }
-
-    // Todo if it in the shared prefernce, the next time users log in, they won't need to re-enter their email.
 
     public void onBackButtonClick(View view) {
         // Handle the back button click

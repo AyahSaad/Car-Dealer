@@ -27,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
         }
         DataBaseHelper dataBaseMain = new DataBaseHelper(MainActivity.this, "CarsDatabase", null, 1);
         User user1 = new User("hala", "ziq", "hala@ziq.com", "h12345!", "female", "Palestine", "Ramallah", "Admin", "00970592687071");
+        User user2= new User("ayah", "saad", "ayah@saad.com", "a12345!", "female", "Palestine", "Ramallah", "Admin", "00970592687071");
         dataBaseMain.insertUser(user1);
+        dataBaseMain.insertUser(user2);
         Button getStarted = findViewById(R.id.getStarted);
         getStarted.setOnClickListener(new View.OnClickListener() {
             @Override
