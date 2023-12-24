@@ -3,6 +3,7 @@ package edu.birzeit.advancecardealer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +19,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.birzeit.advancecardealer.user.HomePage;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 public class SignPage extends AppCompatActivity {
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
@@ -120,10 +124,18 @@ public class SignPage extends AppCompatActivity {
 
                 }
                 else{
+                    Cursor check = dataBaseSign.getType(email.getText().toString());
+                    if(check.moveToNext()){
+                        Toast checkEmail = Toast.makeText(SignPage.this,"The Entered Email is already exist",Toast.LENGTH_SHORT);
+                        checkEmail.show();
+                    }else{
+                        dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "User", zip.getText().toString() + phone.getText().toString()));
+                        Intent signIntent = new Intent(SignPage.this, HomePage.class);
+                        startActivity(signIntent);
+                    }
 
-                    dataBaseSign.insertUser(new User(firstName.getText().toString(),lastName.getText().toString(),email.getText().toString(),password.getText().toString(),genderSpinner.getSelectedItem().toString(),countrySpinner.getSelectedItem().toString(),citySpinner.getSelectedItem().toString(),"User",zip.getText().toString()+phone.getText().toString()));
-                    Intent signIntent = new Intent(SignPage.this, HomePage.class);
-                    startActivity(signIntent);
+
+
                 }
             }
         });

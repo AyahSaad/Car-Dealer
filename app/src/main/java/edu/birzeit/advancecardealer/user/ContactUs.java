@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import edu.birzeit.advancecardealer.LoginPage;
 import edu.birzeit.advancecardealer.R;
 
 public class ContactUs extends AppCompatActivity {
@@ -45,9 +46,9 @@ public class ContactUs extends AppCompatActivity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                    Intent mapsIntent =new Intent();
-                    mapsIntent.setAction(Intent.ACTION_VIEW);
+                //todo remove the comment
+                    Intent mapsIntent =new Intent(ContactUs.this, LoginPage.class);
+                   // mapsIntent.setAction(Intent.ACTION_VIEW);
                     startActivity(mapsIntent);
                 }
         });

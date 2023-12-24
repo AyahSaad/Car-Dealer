@@ -15,7 +15,6 @@ public class RegSection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_section);
-
         Button signup = findViewById(R.id.signUp);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,9 +28,11 @@ public class RegSection extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent loginIntent = new Intent(RegSection.this, ContactUs.class);
+                Intent loginIntent = new Intent(RegSection.this, LoginPage.class);
                 startActivity(loginIntent);
             }
         });
     }
 }
+
+

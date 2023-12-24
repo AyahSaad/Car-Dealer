@@ -49,4 +49,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.rawQuery("SELECT * FROM USERS", null);
     }
 
+    public Cursor getType(String email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM USERS WHERE '"+email+"' = EMAIL", null);
+    }
+
+    public boolean verifyLogin(String email, String password) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String[] columns = {"EMAIL", "PASSWORD"};
+        String selection = "EMAIL = ? AND PASSWORD = ?";
+        String[] selectionArgs = {email, password};
+
+       /* The result of this query is stored in a Cursor object.*/
+        Cursor cursor = sqLiteDatabase.query("USERS", columns, selection, selectionArgs, null, null, null);
+
+        /* This method moves the cursor to the first row of the result set.
+        If the result set is not empty (i.e., there is at least one row matching the criteria),
+        this method returns true, indicating a valid login */
+        boolean isValidLogin = cursor.moveToFirst(); // Move to the first row of the result
+
+        cursor.close();
+        return isValidLogin;
+        }
 }
