@@ -10,6 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdvanceCarDealer">
         <activity
+            android:name=".admin.AdminMainPage"
+            android:exported="false" />
+        <activity
+            android:name=".admin.LogoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ViewAllReservesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.DeleteCustomersActivity"
+            android:exported="false" />
+        <activity
             android:name=".user.ContactUs"
             android:exported="false" />
         <activity

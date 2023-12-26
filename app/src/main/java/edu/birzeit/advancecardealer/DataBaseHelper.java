@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
@@ -13,7 +14,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -53,20 +53,47 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery("SELECT * FROM USERS WHERE '"+email+"' = EMAIL", null);
     }
+
+    public Cursor getCustomerByFirstNameAndLastName(String firstName, String lastName) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String selection = "FIRST_NAME = ? AND LAST_NAME = ?";
+        String[] selectionArgs = {firstName, lastName};
+        return sqLiteDatabase.query("USERS", null, selection, selectionArgs, null, null, null);
+    }
+
+    public Cursor getCustomerByFirstName(String firstName) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String selection = "FIRST_NAME = ?";
+        String[] selectionArgs = {firstName};
+        return sqLiteDatabase.query("USERS", null, selection, selectionArgs, null, null, null);
+    }
+
+    public Cursor getCustomerByLastName(String lastName) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String selection = "LAST_NAME = ?";
+        String[] selectionArgs = {lastName};
+        return sqLiteDatabase.query("USERS", null, selection, selectionArgs, null, null, null);
+    }
+
+    public boolean deleteCustomer(String email) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String whereClause = "EMAIL = ?";
+        String[] whereArgs = {email};
+        int rowsDeleted = sqLiteDatabase.delete("USERS", whereClause, whereArgs);
+        return rowsDeleted > 0;
+    }
+
     public boolean verifyLogin(String email, String password) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         String[] columns = {"EMAIL", "PASSWORD"};
         String selection = "EMAIL = ? AND PASSWORD = ?";
         String[] selectionArgs = {email, password};
-
        /* The result of this query is stored in a Cursor object.*/
         Cursor cursor = sqLiteDatabase.query("USERS", columns, selection, selectionArgs, null, null, null);
-
         /* This method moves the cursor to the first row of the result set.
         If the result set is not empty (i.e., there is at least one row matching the criteria),
         this method returns true, indicating a valid login */
         boolean isValidLogin = cursor.moveToFirst(); // Move to the first row of the result
-
         cursor.close();
         return isValidLogin;
         }

@@ -38,7 +38,7 @@
 
     <ImageView
         android:id="@+id/red_car"
-        android:layout_width="465dp"
+        android:layout_width="485dp"
         android:layout_height="243dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
@@ -109,17 +109,5 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textViewStoredEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textViewStoredPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
 </LinearLayout>

@@ -38,6 +38,13 @@ public class SharedPrefManager {
             editor.clear();
             editor.apply();
        }
+    public boolean putBoolean(String key, boolean b) {
+        editor.putBoolean(key,b);
+        return editor.commit();
+    }
+    public Boolean readBoolean(String key, boolean defaultValue) {
+        return sharedPreferences.getBoolean(key, defaultValue);
+    }
 }
 
 
