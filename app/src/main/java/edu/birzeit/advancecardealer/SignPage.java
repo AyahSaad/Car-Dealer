@@ -129,7 +129,7 @@ public class SignPage extends AppCompatActivity {
                         Toast checkEmail = Toast.makeText(SignPage.this,"The Entered Email is already exist",Toast.LENGTH_SHORT);
                         checkEmail.show();
                     }else{
-                        dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "User", zip.getText().toString() + phone.getText().toString()));
+                        dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "User", zip.getText().toString() + phone.getText().toString()));
                         Intent signIntent = new Intent(SignPage.this, HomePage.class);
                         startActivity(signIntent);
                     }

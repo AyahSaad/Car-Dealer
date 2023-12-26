@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import edu.birzeit.advancecardealer.user.ContactUs;
 import edu.birzeit.advancecardealer.user.HomePage;
 
@@ -46,8 +48,8 @@ public class LoginPage extends AppCompatActivity {
                 // Save email and password to SharedPreferences if "Remember Me" is checked
                 if (rememberMeCheckBox.isChecked()) {
                     // Check if the email and password exist in the database
-                    if (dataBaseLogin.verifyLogin(Email.getText().toString(), Password.getText().toString())) {
-                        sharedPrefManager.writeString("email",Email.getText().toString());
+                    if (dataBaseLogin.verifyLogin(Email.getText().toString().toLowerCase(), Password.getText().toString())) {
+                        sharedPrefManager.writeString("email",Email.getText().toString().toLowerCase());
                         sharedPrefManager.writeString("password",Password.getText().toString());
                         sharedPrefManager.putBoolean("rememberM",true);
                         System.out.print(rememberMeCheckBox.getText().toString());
@@ -69,13 +71,13 @@ public class LoginPage extends AppCompatActivity {
                     Toast.makeText(LoginPage.this, "Please enter both email and password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (rememberMeCheckBox.isChecked() && Email.getText().toString() !=null && Email.getText().toString() !=null) {
-                    sharedPrefManager.writeString("email",Email.getText().toString());
+                if (rememberMeCheckBox.isChecked() && Email.getText().toString() !=null && Password.getText().toString() !=null) {
+                    sharedPrefManager.writeString("email",Email.getText().toString().toLowerCase());
                     sharedPrefManager.writeString("password",Password.getText().toString());
                     // Toast.makeText(LoginPage.this, "Values written to shared Preferences", Toast.LENGTH_SHORT).show();
                 }
                 if (dataBaseLogin.verifyLogin(Email.getText().toString(), Password.getText().toString())) {
-                    Cursor Type= dataBaseLogin.getType(Email.getText().toString());
+                    Cursor Type= dataBaseLogin.getType(Email.getText().toString().toLowerCase());
                     Toast.makeText(LoginPage.this, "Login successful", Toast.LENGTH_SHORT).show();
                   // Todo
                     if(Type.moveToNext()){

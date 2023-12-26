@@ -2,8 +2,8 @@ package edu.birzeit.advancecardealer;
 
 public class Reserve {
     int id;
-    int userId;
     int carId;
+   String email;
     String date;
     String time;
 
@@ -11,10 +11,10 @@ public class Reserve {
     }
 
 
-    public Reserve(int id, int userId, int carId, String date, String time) {
+    public Reserve(int id,String email, int carId, String date, String time) {
         this.id = id;
-        this.userId = userId;
         this.carId = carId;
+        this.email = email;
         this.date = date;
         this.time = time;
     }
@@ -28,13 +28,7 @@ public class Reserve {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public int getCarId() {
         return carId;
@@ -65,10 +59,18 @@ public class Reserve {
     public String toString() {
         return "Reserve{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", carId=" + carId +
+                ", CarId=" + carId +
+                ", email='" + email + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 '}';
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

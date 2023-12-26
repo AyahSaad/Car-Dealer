@@ -2,15 +2,15 @@ package edu.birzeit.advancecardealer;
 
 public class Favorite {
     int id;
-    int userId;
+    String email;
     int carId;
 
     public Favorite() {
     }
 
-    public Favorite(int id, int userId, int carId) {
+    public Favorite(int id, String email, int carId) {
         this.id = id;
-        this.userId = userId;
+        this.email = email;
         this.carId = carId;
     }
 
@@ -23,12 +23,12 @@ public class Favorite {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUseremail() {
+        return email;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUseremail(String email) {
+        this.email = email;
     }
 
     public int getCarId() {
@@ -43,7 +43,7 @@ public class Favorite {
     public String toString() {
         return "Favorite{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId=" + email +
                 ", carId=" + carId +
                 '}';
     }
