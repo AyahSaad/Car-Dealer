@@ -56,7 +56,7 @@ public class AdminMainPage extends AppCompatActivity {
                     Toast.makeText(AdminMainPage.this, "Add Admin", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.View) {
-                    intent = new Intent(AdminMainPage.this, ViewAllReservesActivity.class);
+                    intent = new Intent(AdminMainPage.this, AllReserves.class);
                     Toast.makeText(AdminMainPage.this, "View", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.logout) {
