@@ -33,7 +33,7 @@
                     app:srcCompat="@drawable/narrow_back" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/user"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:text="Registration Page"

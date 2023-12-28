@@ -28,6 +28,16 @@
             android:name=".user.HomePage"
             android:exported="false" />
         <activity
+            android:name=".admin.AdminMainPage"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.DeleteCustomersActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

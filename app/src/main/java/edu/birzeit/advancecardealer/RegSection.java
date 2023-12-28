@@ -20,6 +20,7 @@ public class RegSection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent signupIntent = new Intent(RegSection.this,SignPage.class);
+                signupIntent.putExtra("Type","User");
                 startActivity(signupIntent);
             }
         });

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import edu.birzeit.advancecardealer.admin.AdminMainPage;
 import edu.birzeit.advancecardealer.admin.AllReserves;
 import edu.birzeit.advancecardealer.user.ContactUs;
 import edu.birzeit.advancecardealer.user.HomePage;
@@ -53,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
         dataBaseMain.insertCar(car2);
         dataBaseMain.insertCar(car3);
 
-        Reserve reserve1 = new Reserve(1, "ayah@saad.com", 1, "2023-01-01", "10:00 AM");
+        Reserve reserve1 = new Reserve(1, "hala@ziq.com", 1, "2023-01-01", "10:00 AM");
         Reserve reserve2 = new Reserve(2, "ayah@saad.com", 2, "2023-02-02", "11:30 AM");
-        Reserve reserve3 = new Reserve(3, "ayah@saad.com", 3, "2023-03-03", "02:15 PM");
+        Reserve reserve3 = new Reserve(3, "hala@ziq.com", 3, "2023-03-03", "02:15 PM");
         Reserve reserve4 = new Reserve(4, "ayah@saad.com", 1, "2023-04-04", "04:45 PM");
-        Reserve reserve5 = new Reserve(5, "ayah@saad.com", 2, "2023-05-05", "08:00 AM");
+        Reserve reserve5 = new Reserve(5, "hala@ziq.com", 2, "2023-05-05", "08:00 AM");
         Reserve reserve6 = new Reserve(6, "ayah@saad.com", 3, "2023-06-06", "01:30 PM");
-        Reserve reserve7 = new Reserve(7, "ayah@saad.com", 1, "2023-07-07", "03:45 PM");
+        Reserve reserve7 = new Reserve(7, "hala@ziq.com", 1, "2023-07-07", "03:45 PM");
         Reserve reserve8 = new Reserve(8, "ayah@saad.com", 2, "2023-08-08", "06:00 PM");
         dataBaseMain.insertReservation(reserve1);
         dataBaseMain.insertReservation(reserve2);
@@ -71,30 +72,33 @@ public class MainActivity extends AppCompatActivity {
         dataBaseMain.insertReservation(reserve8);
 
 
-        Intent intent =new Intent(MainActivity.this, AllReserves.class);
-        startActivity(intent);
 
 
+        if (rememberMe == true && type.equals("Admin") ){
+            //TODO Add Admin Home Page Intent
+            Intent home = new Intent(MainActivity.this, AdminMainPage.class);
+            startActivity(home);
+        }else if (rememberMe == true && type.equals("User") ){
+            Intent home = new Intent(MainActivity.this, HomePage.class);
+            startActivity(home);
 
-//        if (rememberMe == true && type.equals("Admin") ){
-//            //TODO Add Admin Home Page Intent
-//            Intent home = new Intent(MainActivity.this, ContactUs.class);
-//            startActivity(home);
-//        }else if (rememberMe == true && type.equals("User") ){
-//            Intent home = new Intent(MainActivity.this, HomePage.class);
-//            startActivity(home);
-//
-//        }
-//
-//        Button getStarted = findViewById(R.id.getStarted);
-//        getStarted.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getStarted.setBackgroundColor(Color.BLACK);
-//                Intent regIntent = new Intent(MainActivity.this,RegSection.class);
-//                startActivity(regIntent);
-//            }
-//        });
+        }else if (type.equals("Admin")){
+              //TODO Add Admin Home Page Intent
+            Intent home = new Intent(MainActivity.this, AdminMainPage.class);
+            startActivity(home);
+
+        }
+        Button getStarted = findViewById(R.id.getStarted);
+        getStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getStarted.setBackgroundColor(Color.BLACK);
+                Intent regIntent = new Intent(MainActivity.this,RegSection.class);
+                startActivity(regIntent);
+            }
+        });
+
+
 
 
 

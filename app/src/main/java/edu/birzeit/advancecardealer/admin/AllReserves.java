@@ -7,6 +7,7 @@ import androidx.core.database.CursorWindowCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -23,8 +24,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.codecrafters.tableview.TableView;
-import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import edu.birzeit.advancecardealer.DataBaseHelper;
 import edu.birzeit.advancecardealer.MainActivity;
 import edu.birzeit.advancecardealer.R;
@@ -35,8 +34,16 @@ public class AllReserves extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_reserves);
+        Intent emailIntent = getIntent();
+        String currentUser = emailIntent.getStringExtra("email");
         DataBaseHelper dataBaseadminReserves = new DataBaseHelper(AllReserves.this, "CarsDatabase", null, 1);
-        Cursor adminCursor = dataBaseadminReserves.getReservation();
+        Cursor adminCursor;
+        if (currentUser.equals("Admin")){
+            adminCursor = dataBaseadminReserves.getReservation();
+        }else{
+            adminCursor = dataBaseadminReserves.getUserReservation(currentUser);
+        }
+
         LinearLayout nameLayout = findViewById(R.id.name);
         LinearLayout modelLayout = findViewById(R.id.carModel);
         LinearLayout dateLayout = findViewById(R.id.date);
@@ -124,5 +131,8 @@ public class AllReserves extends AppCompatActivity {
 
         return textView;
     }
-
+    public void onBackButtonClick(View view) {
+        // Handle the back button click
+        onBackPressed();
+    }
 }

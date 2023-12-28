@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,15 +46,35 @@ public class SignPage extends AppCompatActivity {
         return matcher.matches();
     }
 
+    SharedPrefManager preferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_page);
+        Intent checkIntent = getIntent();
+        String getType = checkIntent.getStringExtra("Type");
+        System.out.println("------------------------------------------ " + getType);
 
         DataBaseHelper dataBaseSign = new DataBaseHelper(SignPage.this, "CarsDatabase", null, 1);
+        EditText firstName = findViewById(R.id.firstName);
+        EditText lastName = findViewById(R.id.lastName);
+        EditText email = findViewById(R.id.email);
+        EditText password = findViewById(R.id.signPassword);
+        EditText confirm = findViewById(R.id.confirmPassword);
+        EditText phone = findViewById(R.id.signPhone);
+        Button sign = findViewById(R.id.signInButton);
 
-
+        preferences= SharedPrefManager.getInstance(this);
+        String type = preferences.readString("type"," ");
+        TextView text = findViewById(R.id.user);
+        if(getType.equals("Admin")){
+            text.setText("Add Admin Page");
+        }else{
+            text.setText("Sign Up Page");
+        }
         String [] genderOptions = {"Select Gender" , "Male" , "Female"};
         final Spinner genderSpinner = (Spinner)findViewById(R.id.genderSpinner);
         ArrayAdapter<String> objGenderArray = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, genderOptions);
@@ -80,13 +102,9 @@ public class SignPage extends AppCompatActivity {
 
 
 
-        EditText firstName = findViewById(R.id.firstName);
-        EditText lastName = findViewById(R.id.lastName);
-        EditText email = findViewById(R.id.email);
-        EditText password = findViewById(R.id.signPassword);
-        EditText confirm = findViewById(R.id.confirmPassword);
-        EditText phone = findViewById(R.id.signPhone);
-        Button sign = findViewById(R.id.signInButton);
+
+
+
 
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,8 +147,13 @@ public class SignPage extends AppCompatActivity {
                         Toast checkEmail = Toast.makeText(SignPage.this,"The Entered Email is already exist",Toast.LENGTH_SHORT);
                         checkEmail.show();
                     }else{
-                        dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "User", zip.getText().toString() + phone.getText().toString()));
+                        if(getType.equals("Admin")){
+                            dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "Admin", zip.getText().toString() + phone.getText().toString()));
+                        }else{
+                            dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "User", zip.getText().toString() + phone.getText().toString()));
+                        }
                         Intent signIntent = new Intent(SignPage.this, HomePage.class);
+                        signIntent.putExtra("email",email.getText().toString());
                         startActivity(signIntent);
                     }
 

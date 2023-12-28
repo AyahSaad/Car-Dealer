@@ -1,6 +1,9 @@
 package edu.birzeit.advancecardealer;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import edu.birzeit.advancecardealer.admin.AdminMainPage;
+import edu.birzeit.advancecardealer.admin.AllReserves;
 import edu.birzeit.advancecardealer.user.*;
 
 import android.content.Intent;
@@ -48,17 +51,9 @@ public class LoginPage extends AppCompatActivity {
                 // Save email and password to SharedPreferences if "Remember Me" is checked
                 if (rememberMeCheckBox.isChecked()) {
                     // Check if the email and password exist in the database
-                    if (dataBaseLogin.verifyLogin(Email.getText().toString().toLowerCase(), Password.getText().toString())) {
                         sharedPrefManager.writeString("email",Email.getText().toString().toLowerCase());
                         sharedPrefManager.writeString("password",Password.getText().toString());
                         sharedPrefManager.putBoolean("rememberM",true);
-                        System.out.print(rememberMeCheckBox.getText().toString());
-                        Toast.makeText(LoginPage.this, "Email and password exist in database", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // If not found in the database, uncheck "Remember Me" and show a message
-                        rememberMeCheckBox.setChecked(false);
-                        Toast.makeText(LoginPage.this, "Email and password not found in the database.", Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
         });
@@ -83,14 +78,14 @@ public class LoginPage extends AppCompatActivity {
                     if(Type.moveToNext()){
                         if(Type.getString(Type.getColumnIndex("TYPE")).equals("Admin")){
                             sharedPrefManager.writeString("type","Admin");
-
-
-                            Intent intent = new Intent(LoginPage.this,ContactUs.class);
+                            Intent intent = new Intent(LoginPage.this, AdminMainPage.class);
                             startActivity(intent);
 
                         }else{
+                            sharedPrefManager.writeString("email",Type.getString(Type.getColumnIndex("EMAIL")));
                             sharedPrefManager.writeString("type","User");
-
+                            Intent intent = new Intent(LoginPage.this, AllReserves.class);
+                            intent.putExtra("email",Type.getString(Type.getColumnIndex("EMAIL")));
                             startActivity(intent);
                         }
                     }
