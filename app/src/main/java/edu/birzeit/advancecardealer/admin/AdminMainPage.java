@@ -64,7 +64,12 @@ public class AdminMainPage extends AppCompatActivity {
                     intent.putExtra("email","Admin");
                     Toast.makeText(AdminMainPage.this, "View", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
-                } else if (item.getItemId() == R.id.logout) {
+                } else if (item.getItemId() == R.id.Offers) {
+                    intent = new Intent(AdminMainPage.this, AdminOffers.class);
+                    intent.putExtra("email","Admin");
+                    Toast.makeText(AdminMainPage.this, "View", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);}
+                else if (item.getItemId() == R.id.logout) {
                     intent = new Intent(AdminMainPage.this, RegSection.class);
                     Toast.makeText(AdminMainPage.this, "Logout", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
