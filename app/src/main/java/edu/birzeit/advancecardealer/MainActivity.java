@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -93,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getStarted.setBackgroundColor(Color.BLACK);
-                Intent regIntent = new Intent(MainActivity.this,RegSection.class);
-                startActivity(regIntent);
+                System.out.println("---------------------------------------------------------------");
+
+                ConnectionAsyncTask connectionAsyncTask = new ConnectionAsyncTask(MainActivity.this,MainActivity.this);
+                connectionAsyncTask.execute("https://658582eb022766bcb8c8c86e.mockapi.io/api/mock/rest-apis/encs5150/car-types");
             }
         });
 
@@ -112,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void submitData(View view){
-        startActivity(new Intent(this,AllReserves.class));
-    }
+
+
 }
