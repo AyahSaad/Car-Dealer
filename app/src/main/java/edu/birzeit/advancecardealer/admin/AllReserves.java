@@ -96,7 +96,6 @@ public class AllReserves extends AppCompatActivity {
 
     }
     public void layoutDesign(Cursor adminCursor,LinearLayout name,LinearLayout model,LinearLayout date,int i){
-        int color = (i % 2 == 0) ? Color.parseColor("#FFFFFFFF"): Color.parseColor("#41D3D0D0");
         TextView nameText = createTextView(adminCursor.getString(adminCursor.getColumnIndex("FIRST_NAME")) + " " + adminCursor.getString(adminCursor.getColumnIndex("LAST_NAME")),i);
         TextView modelText = createTextView(adminCursor.getString(adminCursor.getColumnIndex("MODEL")),i);
         TextView dateText = createTextView(adminCursor.getString(adminCursor.getColumnIndex("DATE")) + " \n" + adminCursor.getString(adminCursor.getColumnIndex("TIME")),i);

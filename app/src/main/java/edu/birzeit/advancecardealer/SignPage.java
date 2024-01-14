@@ -137,6 +137,7 @@ public class SignPage extends AppCompatActivity {
                     country.show();
 
                 }else if(phone.getText().length() !=10 || phone.getText().toString().isEmpty()){
+
                     Toast phone = Toast.makeText(SignPage.this,"The phone number should be from 10 digits",Toast.LENGTH_SHORT);
                     phone.show();
 

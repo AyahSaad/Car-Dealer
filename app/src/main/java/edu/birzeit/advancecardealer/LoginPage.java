@@ -84,7 +84,7 @@ public class LoginPage extends AppCompatActivity {
                         }else{
                             sharedPrefManager.writeString("email",Type.getString(Type.getColumnIndex("EMAIL")));
                             sharedPrefManager.writeString("type","User");
-                            Intent intent = new Intent(LoginPage.this, AllReserves.class);
+                            Intent intent = new Intent(LoginPage.this, CustomerProfile.class);
                             intent.putExtra("email",Type.getString(Type.getColumnIndex("EMAIL")));
                             startActivity(intent);
                         }

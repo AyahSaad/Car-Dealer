@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,39 +25,54 @@ public class DeleteCustomersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_delete_customers);
         LinearLayout DeleteCustomerLayout = findViewById(R.id.DeleteCustomerLayout);
         EditText First_name = findViewById(R.id.First_Name);
-        EditText Last_Name = findViewById(R.id.Last_Name);
+        EditText email = findViewById(R.id.EMAIL);
         Button Search = findViewById(R.id.Search);
-        SearchButtonListener(Search, First_name, Last_Name, DeleteCustomerLayout);
+        SearchButtonListener(Search, First_name, email, DeleteCustomerLayout);
     }
-    private void SearchButtonListener(Button Search, EditText First_Name, EditText Last_Name, LinearLayout DeleteCustomerLayout) {
+    private void SearchButtonListener(Button Search, EditText First_Name, EditText email, LinearLayout DeleteCustomerLayout) {
         Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DeleteCustomerLayout.removeAllViews();
-                if (First_Name.getText().toString().isEmpty() && Last_Name.getText().toString().isEmpty()) {
+                if (First_Name.getText().toString().isEmpty() && email.getText().toString().isEmpty()) {
                     Toast.makeText(DeleteCustomersActivity.this, Toast_Text1, Toast.LENGTH_SHORT).show();
-                } else {
-                    Cursor customerCursor;
-                    if (!First_Name.getText().toString().isEmpty() && !Last_Name.getText().toString().isEmpty()) {
-                        // Search by both first name and last name
-                        customerCursor = dataBaseDeleteCustomer.getCustomerByFirstNameAndLastName(First_Name.getText().toString(), Last_Name.getText().toString());
-                    } else if (!First_Name.getText().toString().isEmpty()) {
-                        // Search by first name only
-                        customerCursor = dataBaseDeleteCustomer.getCustomerByFirstName(First_Name.getText().toString());
-                    } else {
-                        // Search by last name only
-                        customerCursor = dataBaseDeleteCustomer.getCustomerByLastName(Last_Name.getText().toString());
-                    }
-                    if (customerCursor.getCount() > 0) {
-                        while (customerCursor.moveToNext()) {
-                            DeleteCustomerLayout.addView(layoutDesign(customerCursor, Search, First_Name, Last_Name, DeleteCustomerLayout));
+                } else if(!First_Name.getText().toString().isEmpty() && !email.getText().toString().isEmpty()){
+
+                    Cursor customerCursor = dataBaseDeleteCustomer.getUserbyEmail(email.getText().toString());
+                    while (customerCursor.moveToNext()){
+
+                        if (customerCursor.getString(customerCursor.getColumnIndex("TYPE")).equals("User")){
+                            DeleteCustomerLayout.addView(layoutDesign(customerCursor, Search, First_Name, email, DeleteCustomerLayout));
+
                         }
-                    } else {
-                        Toast.makeText(DeleteCustomersActivity.this, "No matching data found", Toast.LENGTH_SHORT).show();
+
                     }
-                    customerCursor.close();
+                }else if(First_Name.getText().toString().isEmpty() && !email.getText().toString().isEmpty()){
+                    Cursor customerCursor = dataBaseDeleteCustomer.getUserbyEmail(email.getText().toString());
+                    while (customerCursor.moveToNext()){
+
+                        if (customerCursor.getString(customerCursor.getColumnIndex("TYPE")).equals("User")){
+                            DeleteCustomerLayout.addView(layoutDesign(customerCursor, Search, First_Name, email, DeleteCustomerLayout));
+
+                        }
+
+                    }
+
+                }else if(!First_Name.getText().toString().isEmpty() && email.getText().toString().isEmpty()){
+                    Cursor customerCursor = dataBaseDeleteCustomer.getUsersDelete(First_Name.getText().toString());
+                    while (customerCursor.moveToNext()){
+
+                        if (customerCursor.getString(customerCursor.getColumnIndex("TYPE")).equals("User")){
+                            DeleteCustomerLayout.addView(layoutDesign(customerCursor, Search, First_Name, email, DeleteCustomerLayout));
+
+                        }
+
+                    }
                 }
-            }
+
+
+                }
+
         });
     }
 
@@ -110,21 +124,21 @@ public class DeleteCustomersActivity extends AppCompatActivity {
                 locationTextView.setText("Location: " + country + ", " + city);
                 TypeTextView.setText("Type: " + Type);
 
-            rowLayout.setTag(email);
-            DeleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    handleDeleteButtonClick(email,DeleteCustomerLayout,rowLayout);
-                }
-            });
-            // Add TextViews and Button to the layout
-            colLayout.addView(firstNameTextView);
-            colLayout.addView(lastNameTextView);
-            colLayout.addView(emailTextView);
-            colLayout.addView(phoneTextView);
-            colLayout.addView(locationTextView);
-            rowLayout.addView(colLayout);
-            rowLayout.addView(DeleteButton);
+                rowLayout.setTag(email);
+                DeleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        handleDeleteButtonClick(email,DeleteCustomerLayout,rowLayout);
+                    }
+                });
+                // Add TextViews and Button to the layout
+                colLayout.addView(firstNameTextView);
+                colLayout.addView(lastNameTextView);
+                colLayout.addView(emailTextView);
+                colLayout.addView(phoneTextView);
+                colLayout.addView(locationTextView);
+                rowLayout.addView(colLayout);
+                rowLayout.addView(DeleteButton);
             }
         }
         return rowLayout;

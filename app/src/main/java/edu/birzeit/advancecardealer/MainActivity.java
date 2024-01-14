@@ -42,11 +42,15 @@ public class MainActivity extends AppCompatActivity {
         }
         DataBaseHelper dataBaseMain = new DataBaseHelper(MainActivity.this, "CarsDatabase", null, 1);
         User user1 = new User("hala", "ziq", "hala@ziq.com", "h12345!", "female", "Palestine", "Ramallah", "Admin", "00970592687071");
-        User user2= new User("ayah", "saad", "ayah@saad.com", "a12345!", "female", "Palestine", "Ramallah", "User", "00970592687071");
+        User user2= new User("ayah", "saad", "ayah@saad.com", "a12345!", "female", "Palestine", "Ramallah", "Admin", "00970592687071");
+        User user3= new User("ayah", "saad", "ayah1@saad.com", "a12345!", "female", "Palestine", "Ramallah", "User", "00970592687071");
+        User user4= new User("ayah", "saad", "ayah2@saad.com", "a12345!", "female", "Palestine", "Ramallah", "User", "00970592687071");
 
 
         dataBaseMain.insertUser(user1);
         dataBaseMain.insertUser(user2);
+        dataBaseMain.insertUser(user3);
+        dataBaseMain.insertUser(user4);
 
         Car car1 = new Car(1, "Toyota", "Sedan", (long) 25000.0, "Camry", "Camry XLE", 2000, "2022", "Gasoline", (long)4.0, "No");
         Car car2 = new Car(2, "Honda", "SUV", (long)30000.0, "CR-V", "CR-V EX", 1500, "2023", "Hybrid", (long) 4.5, "No");

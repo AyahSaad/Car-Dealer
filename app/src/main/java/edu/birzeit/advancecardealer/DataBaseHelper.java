@@ -93,11 +93,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return isValidLogin;
     }
 
-    public Cursor getUsers(){
+    public Cursor getUsersDelete(String firstName){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        return sqLiteDatabase.rawQuery("SELECT * FROM USERS", null);
+        return sqLiteDatabase.rawQuery("SELECT * FROM USERS WHERE '"+firstName+"' = FIRST_NAME", null);
     }
-
+    public Cursor getEmail(String Email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM USERS WHERE '"+Email+"' = EMAIL", null);
+    }
     public Cursor getType(String email){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery("SELECT * FROM USERS WHERE '"+email+"' = EMAIL", null);
@@ -116,12 +119,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.rawQuery("SELECT  USERS.*, CARS.*, RESERVE.* FROM  USERS JOIN RESERVE ON USERS.EMAIL = RESERVE.USER_EMAIL JOIN CARS ON CARS.ID = RESERVE.CAR_ID WHERE RESERVE.USER_EMAIL = '"+email+"'", null);
     }
 
-    public Cursor getCustomerByFirstNameAndLastName(String firstName, String lastName) {
+    public Cursor getUserbyEmail(String email){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        String selection = "FIRST_NAME = ? AND LAST_NAME = ?";
-        String[] selectionArgs = {firstName, lastName};
-        return sqLiteDatabase.query("USERS", null, selection, selectionArgs, null, null, null);
+        return sqLiteDatabase.rawQuery("SELECT  USERS.*, CARS.*, RESERVE.* FROM  USERS JOIN RESERVE ON USERS.EMAIL = RESERVE.USER_EMAIL JOIN CARS ON CARS.ID = RESERVE.CAR_ID WHERE RESERVE.USER_EMAIL = '"+email+"'", null);
     }
+
 
     public Cursor getCustomerByFirstName(String firstName) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
@@ -130,12 +132,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.query("USERS", null, selection, selectionArgs, null, null, null);
     }
 
-    public Cursor getCustomerByLastName(String lastName) {
-        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        String selection = "LAST_NAME = ?";
-        String[] selectionArgs = {lastName};
-        return sqLiteDatabase.query("USERS", null, selection, selectionArgs, null, null, null);
-    }
 
     public boolean deleteCustomer(String email) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
@@ -143,6 +139,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String[] whereArgs = {email};
         int rowsDeleted = sqLiteDatabase.delete("USERS", whereClause, whereArgs);
         return rowsDeleted > 0;
+    }
+
+    public void updatePhone(String email, String phone) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("PHONE", phone);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
     }
 
 }

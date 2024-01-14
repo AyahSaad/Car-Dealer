@@ -42,12 +42,10 @@ public class ConnectionAsyncTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         if (result != null) {
-            // Process the HTTP response here
             List<Car> cars = CarJasonParser.getObjectFromJson(result);
             Intent gregSection =  new Intent(activity, RegSection.class);
             activity.startActivity(gregSection);
         } else {
-            // Handle the case where there is no internet connection or the HTTP request failed
             Toast.makeText(activity, "No Internet Connection or Failed to Fetch Data", Toast.LENGTH_SHORT).show();
         }
     }
