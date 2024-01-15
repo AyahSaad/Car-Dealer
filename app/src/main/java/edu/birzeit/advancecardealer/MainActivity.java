@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
         dataBaseMain.insertUser(user3);
         dataBaseMain.insertUser(user4);
 
-        Car car1 = new Car(1, "Toyota", "Sedan", (long) 25000.0, "Camry", "Camry XLE", 2000, "2022", "Gasoline", (long)4.0, "No");
-        Car car2 = new Car(2, "Honda", "SUV", (long)30000.0, "CR-V", "CR-V EX", 1500, "2023", "Hybrid", (long) 4.5, "No");
-        Car car3 = new Car(3, "Ford", "Truck", (long)35000.0, "F-150", "F-150 Lariat", 3000, "2022", "Gasoline", (long)4.2, "Yes");
-
-        dataBaseMain.insertCar(car1);
-        dataBaseMain.insertCar(car2);
-        dataBaseMain.insertCar(car3);
+//        Car car1 = new Car(1, "Toyota", "Sedan", (long) 25000.0, "Camry", "Camry XLE", 2000, "2022", "Gasoline", (long)4.0, "No");
+//        Car car2 = new Car(2, "Honda", "SUV", (long)30000.0, "CR-V", "CR-V EX", 1500, "2023", "Hybrid", (long) 4.5, "No");
+//        Car car3 = new Car(3, "Ford", "Truck", (long)35000.0, "F-150", "F-150 Lariat", 3000, "2022", "Gasoline", (long)4.2, "Yes");
+//
+//        dataBaseMain.insertCar(car1);
+//        dataBaseMain.insertCar(car2);
+//        dataBaseMain.insertCar(car3);
 
         Reserve reserve1 = new Reserve(1, "hala@ziq.com", 1, "2023-01-01", "10:00 AM");
         Reserve reserve2 = new Reserve(2, "ayah@saad.com", 2, "2023-02-02", "11:30 AM");
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("---------------------------------------------------------------");
 
                 ConnectionAsyncTask connectionAsyncTask = new ConnectionAsyncTask(MainActivity.this,MainActivity.this);
-                connectionAsyncTask.execute("https://658582eb022766bcb8c8c86e.mockapi.io/api/mock/rest-apis/encs5150/car-types");
+                connectionAsyncTask.execute("https://my-cars-api.free.beeceptor.com/cars");
             }
         });
 

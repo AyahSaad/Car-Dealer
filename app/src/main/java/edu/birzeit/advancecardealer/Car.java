@@ -12,11 +12,12 @@ public class Car {
     String fuelType;
     long rating;
     String accident;
+    byte[] image;
 
     public Car() {
     }
 
-    public Car(int id, String factoryName, String type, long price, String model, String name, long offer, String year, String fuelType, long rating, String accident) {
+    public Car(int id, String factoryName, String type, long price, String model, String name, long offer, String year, String fuelType, long rating, String accident,byte [] image) {
         this.id = id;
         this.factoryName = factoryName;
         this.type = type;
@@ -28,6 +29,7 @@ public class Car {
         this.fuelType = fuelType;
         this.rating = rating;
         this.accident = accident;
+        this.image = image;
     }
 
 
@@ -118,6 +120,13 @@ public class Car {
     public void setAccident(String accident) {
         this.accident = accident;
     }
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     @Override
     public String toString() {
@@ -135,4 +144,6 @@ public class Car {
                 ", accident='" + accident + '\'' +
                 '}';
     }
+
+
 }
