@@ -1,4 +1,5 @@
 package edu.birzeit.advancecardealer;
+
 public class Favorite {
     int id;
     String email;

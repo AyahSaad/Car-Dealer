@@ -5,15 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.EditText;
-import androidx.annotation.Nullable;
 
+import androidx.annotation.Nullable;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     public DataBaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -56,7 +56,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("FUEL_TYPE",car.getFuelType());
         contentValues.put("YEAR",car.getYear());
         contentValues.put("OFFER",car.getOffer());
-        contentValues.put("NAME",car.getModel());
+        contentValues.put("NAME",car.getName());
         sqLiteDatabase.insert("CARS", null, contentValues);
     }
 
@@ -69,6 +69,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert("FAVORITE", null, contentValues);
     }
 
+
     public void insertReservation(Reserve reserve){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -78,6 +79,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("USER_EMAIL",reserve.getEmail());
         contentValues.put("CAR_ID",reserve.getCarId());
         sqLiteDatabase.insert("RESERVE", null, contentValues);
+    }
+
+
+    public boolean verifyLogin(String email, String password) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String[] columns = {"EMAIL", "PASSWORD"};
+        String selection = "EMAIL = ? AND PASSWORD = ?";
+        String[] selectionArgs = {email, password};
+        Cursor cursor = sqLiteDatabase.query("USERS", columns, selection, selectionArgs, null, null, null);
+        boolean isValidLogin = cursor.moveToFirst();
+        cursor.close();
+        return isValidLogin;
     }
 
     public Cursor getUsers(){
@@ -98,21 +111,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery("SELECT  USERS.*, CARS.*, RESERVE.* FROM  USERS JOIN RESERVE ON USERS.EMAIL = RESERVE.USER_EMAIL JOIN CARS ON CARS.ID = RESERVE.CAR_ID", null);
     }
-
-    public boolean verifyLogin(String email, String password) {
+    public Cursor getUserReservation(String email){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        String[] columns = {"EMAIL", "PASSWORD"};
-        String selection = "EMAIL = ? AND PASSWORD = ?";
-        String[] selectionArgs = {email, password};
-       /* The result of this query is stored in a Cursor object.*/
-        Cursor cursor = sqLiteDatabase.query("USERS", columns, selection, selectionArgs, null, null, null);
-        /* This method moves the cursor to the first row of the result set.
-        If the result set is not empty (i.e., there is at least one row matching the criteria),
-        this method returns true, indicating a valid login */
-        boolean isValidLogin = cursor.moveToFirst(); // Move to the first row of the result
-        cursor.close();
-        return isValidLogin;
-        }
+        return sqLiteDatabase.rawQuery("SELECT  USERS.*, CARS.*, RESERVE.* FROM  USERS JOIN RESERVE ON USERS.EMAIL = RESERVE.USER_EMAIL JOIN CARS ON CARS.ID = RESERVE.CAR_ID WHERE RESERVE.USER_EMAIL = '"+email+"'", null);
+    }
 
     public Cursor getCustomerByFirstNameAndLastName(String firstName, String lastName) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
@@ -142,4 +144,94 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int rowsDeleted = sqLiteDatabase.delete("USERS", whereClause, whereArgs);
         return rowsDeleted > 0;
     }
+
+    public Cursor getEmail(String Email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM USERS WHERE '"+Email+"' = EMAIL", null);
+    }
+
+    public void updatePhone(String email, String phone) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("PHONE", phone);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
+    }
+    public void updateEmail(String email,String new_email) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("EMAIL", new_email);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
+    }
+
+    public void updateCountry(String email, String country) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("COUNTRY", country);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
+    }
+
+    public void updateCity(String email, String city) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("CITY", city);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
+    }
+
+    public void updateFirstName(String email, String first_name) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("FIRST_NAME", first_name);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
+    }
+
+    public void updateLastName(String email, String last_name) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("LAST_NAME", last_name);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
+    }
+
+    public void updateGender(String email, String gender) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("GENDER", gender);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
+    }
+
+    public void updatePassword(String email, String password) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("PASSWORD", password);
+        sqLiteDatabase.update("USERS", contentValues, "EMAIL = ?", new String[]{email});
+    }
+
+    //car offers
+    public Cursor getOfferByFactoryNameAndCarName(String factoryName, String carName) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String selection = "FACTORY_NAME = ? AND NAME = ?";
+        String[] selectionArgs = {factoryName, carName};
+        return sqLiteDatabase.query("CARS", null, selection, selectionArgs, null, null, null);
+    }
+
+    public Cursor getOfferByFactoryName(String factoryName) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String selection = "FACTORY_NAME = ?";
+        String[] selectionArgs = {factoryName};
+        return sqLiteDatabase.query("CARS", null, selection, selectionArgs, null, null, null);
+    }
+
+    public Cursor getOfferByCarName(String carName) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String selection = "NAME= ?";
+        String[] selectionArgs = {carName};
+        return sqLiteDatabase.query("CARS", null, selection, selectionArgs, null, null, null);
+    }
+
+    public void addOffer(int id, String offer) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("OFFER", offer);
+        sqLiteDatabase.update("CARS", contentValues, "ID = ?", new String[]{String.valueOf(id)});
+    }
+
 }

@@ -1,7 +1,13 @@
 package edu.birzeit.advancecardealer.admin;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.database.CursorWindowCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -9,12 +15,17 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.birzeit.advancecardealer.DataBaseHelper;
+import edu.birzeit.advancecardealer.MainActivity;
 import edu.birzeit.advancecardealer.R;
 
 public class AllReserves extends AppCompatActivity {
@@ -23,9 +34,17 @@ public class AllReserves extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_reserves);
+        Intent emailIntent = getIntent();
+        String currentUser = emailIntent.getStringExtra("email");
         DataBaseHelper dataBaseadminReserves = new DataBaseHelper(AllReserves.this, "CarsDatabase", null, 1);
-       Cursor adminCursor = dataBaseadminReserves.getReservation();
-       LinearLayout nameLayout = findViewById(R.id.name);
+        Cursor adminCursor;
+        if (currentUser.equals("Admin")){
+            adminCursor = dataBaseadminReserves.getReservation();
+        }else{
+            adminCursor = dataBaseadminReserves.getUserReservation(currentUser);
+        }
+
+        LinearLayout nameLayout = findViewById(R.id.name);
         LinearLayout modelLayout = findViewById(R.id.carModel);
         LinearLayout dateLayout = findViewById(R.id.date);
         LinearLayout row = findViewById(R.id.row);
@@ -35,7 +54,7 @@ public class AllReserves extends AppCompatActivity {
         dateLayout.removeAllViews();
         int i =0;
 
-      TextView namelabel = createTextView("Customer Name",i);
+        TextView namelabel = createTextView("Customer Name",i);
         TextView modellabel = createTextView("Car Model",i);
         TextView datelabel = createTextView("Date",i);
         nameLayout.addView(namelabel);
@@ -43,36 +62,37 @@ public class AllReserves extends AppCompatActivity {
         dateLayout.addView(datelabel);
         i++;
 
-        while (adminCursor.moveToNext()) {
-
-            layoutDesign(adminCursor, nameLayout, modelLayout, dateLayout, i);
-            i++;
-        }
+            while (adminCursor.moveToNext()) {
 
 
-        if(i == 1){
-            main.removeAllViews();
-            ImageView imageView = new ImageView(AllReserves.this);
-            // Set the image resource or other properties
-            imageView.setImageResource(R.drawable.no_data);
-            // Set top margin for the ImageView
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            layoutParams.topMargin = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    100,
-                    getResources().getDisplayMetrics()
-            );
-            layoutParams.rightMargin= (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    50,
-                    getResources().getDisplayMetrics()
-            );
-            imageView.setLayoutParams(layoutParams);
-            main.addView(imageView);
-        }
+                layoutDesign(adminCursor, nameLayout, modelLayout, dateLayout, i);
+                i++;
+            }
+
+
+            if(i == 1){
+                main.removeAllViews();
+                ImageView imageView = new ImageView(AllReserves.this);
+                // Set the image resource or other properties
+                 imageView.setImageResource(R.drawable.no_data);
+                // Set top margin for the ImageView
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                layoutParams.topMargin = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        100,
+                        getResources().getDisplayMetrics()
+                );
+                layoutParams.rightMargin= (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        50,
+                        getResources().getDisplayMetrics()
+                );
+                imageView.setLayoutParams(layoutParams);
+                 main.addView(imageView);
+            }
 
     }
     public void layoutDesign(Cursor adminCursor,LinearLayout name,LinearLayout model,LinearLayout date,int i){
@@ -115,6 +135,4 @@ public class AllReserves extends AppCompatActivity {
         // Handle the back button click
         onBackPressed();
     }
-
-
 }

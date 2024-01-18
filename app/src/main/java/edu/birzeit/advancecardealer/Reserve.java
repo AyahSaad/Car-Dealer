@@ -1,8 +1,9 @@
 package edu.birzeit.advancecardealer;
+
 public class Reserve {
     int id;
     int carId;
-    String email;
+   String email;
     String date;
     String time;
 
@@ -73,4 +74,3 @@ public class Reserve {
         this.email = email;
     }
 }
-

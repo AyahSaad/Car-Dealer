@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import edu.birzeit.advancecardealer.user.ContactUs;
+import edu.birzeit.advancecardealer.user.HomePage;
 
 public class RegSection extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class RegSection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent signupIntent = new Intent(RegSection.this,SignPage.class);
+                signupIntent.putExtra("Type","User");
                 startActivity(signupIntent);
             }
         });

@@ -1,7 +1,6 @@
 package edu.birzeit.advancecardealer;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.EditText;
 
 public class SharedPrefManager {
         private static final String SHARED_PREF_NAME = "My Shared Preference";
@@ -38,13 +37,15 @@ public class SharedPrefManager {
             editor.clear();
             editor.apply();
        }
+
     public boolean putBoolean(String key, boolean b) {
-        editor.putBoolean(key,b);
-        return editor.commit();
+            editor.putBoolean(key,b);
+            return editor.commit();
     }
     public Boolean readBoolean(String key, boolean defaultValue) {
         return sharedPreferences.getBoolean(key, defaultValue);
     }
+
 }
 
 
