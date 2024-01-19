@@ -1,4 +1,4 @@
-package edu.birzeit.advancecardealer.admin;
+package edu.birzeit.advancecardealer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,10 +14,6 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
-
-import edu.birzeit.advancecardealer.R;
-import edu.birzeit.advancecardealer.RegSection;
-import edu.birzeit.advancecardealer.SignPage;
 
 public class AdminMainPage extends AppCompatActivity {
     Intent intent;

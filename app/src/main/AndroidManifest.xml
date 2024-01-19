@@ -13,16 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdvanceCarDealer">
         <activity
-            android:name=".user.CustomerProfile"
+            android:name=".CarsMenu"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminOffers"
+            android:name=".CustomerProfile"
             android:exported="false" />
         <activity
-            android:name=".admin.AllReserves"
+            android:name=".AdminOffers"
             android:exported="false" />
         <activity
-            android:name=".user.ContactUs"
+            android:name=".AllReserves"
+            android:exported="false" />
+        <activity
+            android:name=".ContactUs"
             android:exported="false" />
         <activity
             android:name=".LoginPage"
@@ -34,16 +37,16 @@
             android:name=".RegSection"
             android:exported="false" />
         <activity
-            android:name=".user.HomePage"
+            android:name=".HomePage"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminMainPage"
+            android:name=".AdminMainPage"
             android:exported="false" />
         <activity
-            android:name=".admin.AddAdminActivity"
+            android:name=".AddAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.DeleteCustomersActivity"
+            android:name=".DeleteCustomersActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

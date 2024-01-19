@@ -9,6 +9,7 @@
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_admin_main_page.xml" value="0.1" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_admin_offers.xml" value="0.1082427536231884" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_all_reserves.xml" value="0.1" />
+        <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_cars_menu.xml" value="0.25" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_contact_us.xml" value="0.2" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_customer_profile.xml" value="0.25" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_delete_customers.xml" value="0.18" />
@@ -18,9 +19,13 @@
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_reg_section.xml" value="0.22" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/activity_sign_page.xml" value="0.25" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/customer_address.xml" value="0.1" />
+        <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/customer_email.xml" value="0.1" />
+        <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/customer_image.xml" value="0.184375" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/customer_info.xml" value="0.22" />
+        <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/customerheader.xml" value="0.1" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/header.xml" value="0.1" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/layout/rv_layout.xml" value="0.33" />
+        <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/menu/customer_menu.xml" value="0.1" />
         <entry key="..\:/Users/MASS/Desktop/First Sem 5th/Android Lab/AdvanceCarDealer_main/app/src/main/res/menu/main_menu.xml" value="0.1" />
       </map>
     </option>

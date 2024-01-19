@@ -1,13 +1,9 @@
 package edu.birzeit.advancecardealer;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import edu.birzeit.advancecardealer.admin.AdminMainPage;
-import edu.birzeit.advancecardealer.admin.AllReserves;
-import edu.birzeit.advancecardealer.user.*;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -17,12 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Locale;
-
-import edu.birzeit.advancecardealer.user.ContactUs;
-import edu.birzeit.advancecardealer.user.HomePage;
-
 public class LoginPage extends AppCompatActivity {
+    private SharedViewModel sharedViewModel;
+
     EditText Email;
     EditText Password;
     Button logIn;
@@ -41,9 +34,11 @@ public class LoginPage extends AppCompatActivity {
         Password = (EditText) findViewById(R.id.Password);
         logIn = (Button) findViewById(R.id.logIn);
         rememberMeCheckBox  = findViewById(R.id.RememberMe);
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         DataBaseHelper dataBaseLogin = new DataBaseHelper(LoginPage.this, "CarsDatabase", null, 1);
         sharedPrefManager = SharedPrefManager.getInstance(this);
         intent = new Intent(LoginPage.this, HomePage.class);
+
 
         rememberMeCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,18 +69,25 @@ public class LoginPage extends AppCompatActivity {
                 if (dataBaseLogin.verifyLogin(Email.getText().toString(), Password.getText().toString())) {
                     Cursor Type= dataBaseLogin.getType(Email.getText().toString().toLowerCase());
                     Toast.makeText(LoginPage.this, "Login successful", Toast.LENGTH_SHORT).show();
-                  // Todo
+                    String userEmail = Email.getText().toString();
+
+
                     if(Type.moveToNext()){
                         if(Type.getString(Type.getColumnIndex("TYPE")).equals("Admin")){
-                            sharedPrefManager.writeString("type","Admin");
+                            sharedPrefManager.writeString("currentUserEmail",Email.getText().toString().toLowerCase());
+                            sharedPrefManager.writeString("currentUserType",Type.getString(Type.getColumnIndex("TYPE")));
+
+
+                            // Set user email in the shared ViewModel
                             Intent intent = new Intent(LoginPage.this, AdminMainPage.class);
                             startActivity(intent);
 
                         }else{
                             sharedPrefManager.writeString("email",Type.getString(Type.getColumnIndex("EMAIL")));
-                            sharedPrefManager.writeString("type","User");
-                            Intent intent = new Intent(LoginPage.this, CustomerProfile.class);
-                            intent.putExtra("email",Type.getString(Type.getColumnIndex("EMAIL")));
+                            sharedPrefManager.writeString("currentUserEmail",Email.getText().toString().toLowerCase());
+                            sharedPrefManager.writeString("currentUserType",Type.getString(Type.getColumnIndex("TYPE")));
+
+                            Intent intent = new Intent(LoginPage.this, HomePage.class);
                             startActivity(intent);
                         }
                     }

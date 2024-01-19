@@ -1,4 +1,4 @@
-package edu.birzeit.advancecardealer.admin;
+package edu.birzeit.advancecardealer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
@@ -13,9 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import edu.birzeit.advancecardealer.DataBaseHelper;
-import edu.birzeit.advancecardealer.R;
-
 public class DeleteCustomersActivity extends AppCompatActivity {
     private static final String Toast_Text1 = "Please Enter the Customer Details";
     DataBaseHelper dataBaseDeleteCustomer = new DataBaseHelper(DeleteCustomersActivity.this, "CarsDatabase", null, 1);
@@ -25,54 +22,39 @@ public class DeleteCustomersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_delete_customers);
         LinearLayout DeleteCustomerLayout = findViewById(R.id.DeleteCustomerLayout);
         EditText First_name = findViewById(R.id.First_Name);
-        EditText email = findViewById(R.id.EMAIL);
+        EditText Last_Name = findViewById(R.id.Last_Name);
         Button Search = findViewById(R.id.Search);
-        SearchButtonListener(Search, First_name, email, DeleteCustomerLayout);
+        SearchButtonListener(Search, First_name, Last_Name, DeleteCustomerLayout);
     }
-    private void SearchButtonListener(Button Search, EditText First_Name, EditText email, LinearLayout DeleteCustomerLayout) {
+    private void SearchButtonListener(Button Search, EditText First_Name, EditText Last_Name, LinearLayout DeleteCustomerLayout) {
         Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DeleteCustomerLayout.removeAllViews();
-                if (First_Name.getText().toString().isEmpty() && email.getText().toString().isEmpty()) {
+                if (First_Name.getText().toString().isEmpty() && Last_Name.getText().toString().isEmpty()) {
                     Toast.makeText(DeleteCustomersActivity.this, Toast_Text1, Toast.LENGTH_SHORT).show();
-                } else if(!First_Name.getText().toString().isEmpty() && !email.getText().toString().isEmpty()){
-
-                    Cursor customerCursor = dataBaseDeleteCustomer.getUserbyEmail(email.getText().toString());
-                    while (customerCursor.moveToNext()){
-
-                        if (customerCursor.getString(customerCursor.getColumnIndex("TYPE")).equals("User")){
-                            DeleteCustomerLayout.addView(layoutDesign(customerCursor, Search, First_Name, email, DeleteCustomerLayout));
-
-                        }
-
+                } else {
+                    Cursor customerCursor;
+                    if (!First_Name.getText().toString().isEmpty() && !Last_Name.getText().toString().isEmpty()) {
+                        // Search by both first name and last name
+                        customerCursor = dataBaseDeleteCustomer.getCustomerByFirstNameAndLastName(First_Name.getText().toString(), Last_Name.getText().toString());
+                    } else if (!First_Name.getText().toString().isEmpty()) {
+                        // Search by first name only
+                        customerCursor = dataBaseDeleteCustomer.getCustomerByFirstName(First_Name.getText().toString());
+                    } else {
+                        // Search by last name only
+                        customerCursor = dataBaseDeleteCustomer.getCustomerByLastName(Last_Name.getText().toString());
                     }
-                }else if(First_Name.getText().toString().isEmpty() && !email.getText().toString().isEmpty()){
-                    Cursor customerCursor = dataBaseDeleteCustomer.getUserbyEmail(email.getText().toString());
-                    while (customerCursor.moveToNext()){
-
-                        if (customerCursor.getString(customerCursor.getColumnIndex("TYPE")).equals("User")){
-                            DeleteCustomerLayout.addView(layoutDesign(customerCursor, Search, First_Name, email, DeleteCustomerLayout));
-
+                    if (customerCursor.getCount() > 0) {
+                        while (customerCursor.moveToNext()) {
+                            DeleteCustomerLayout.addView(layoutDesign(customerCursor, Search, First_Name, Last_Name, DeleteCustomerLayout));
                         }
-
+                    } else {
+                        Toast.makeText(DeleteCustomersActivity.this, "No matching data found", Toast.LENGTH_SHORT).show();
                     }
-
-                }else if(!First_Name.getText().toString().isEmpty() && email.getText().toString().isEmpty()){
-                    Cursor customerCursor = dataBaseDeleteCustomer.getUsersDelete(First_Name.getText().toString());
-                    while (customerCursor.moveToNext()){
-
-                        if (customerCursor.getString(customerCursor.getColumnIndex("TYPE")).equals("User")){
-                            DeleteCustomerLayout.addView(layoutDesign(customerCursor, Search, First_Name, email, DeleteCustomerLayout));
-
-                        }
-
-                    }
+                    customerCursor.close();
                 }
-
-
-                }
-
+            }
         });
     }
 

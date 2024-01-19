@@ -8,13 +8,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarJasonParser {
+
+
+public class CarJsonParser {
+
+    public static List<Car> cars = new ArrayList<>();
 
     public static List<Car> getObjectFromJson(String json) {
-        List<Car> cars;
+
         try {
+
             JSONArray jsonArray = new JSONArray(json);
-            cars = new ArrayList<>();
+
+
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject = (JSONObject) jsonArray.get(i);
@@ -30,9 +36,19 @@ public class CarJasonParser {
                 car.setFuelType(jsonObject.getString("FUEL_TYPE"));
                 car.setRating(jsonObject.getLong("RATING"));
                 car.setAccident(jsonObject.getString("ACCIDENT"));
+                car.setDoorsCount(jsonObject.getInt("DOORS"));
+                car.setHasAspare(jsonObject.getString("SPARE"));
+                car.setColor(jsonObject.getString("COLOR"));
+                car.setCompany(jsonObject.getString("COMPANY"));
+                car.setImage(jsonObject.getString("IMAGE"));
+
+
+                System.out.println("-----------------------------------"+jsonObject.getString("IMAGE"));
                 cars.add(car);
-                System.out.println(car.getType());
+
             }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

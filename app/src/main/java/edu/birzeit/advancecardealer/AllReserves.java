@@ -1,11 +1,6 @@
-package edu.birzeit.advancecardealer.admin;
-
-import static android.view.View.TEXT_ALIGNMENT_CENTER;
+package edu.birzeit.advancecardealer;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.database.CursorWindowCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,33 +10,27 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.birzeit.advancecardealer.DataBaseHelper;
-import edu.birzeit.advancecardealer.MainActivity;
-import edu.birzeit.advancecardealer.R;
-
 public class AllReserves extends AppCompatActivity {
+    private SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_reserves);
         Intent emailIntent = getIntent();
-        String currentUser = emailIntent.getStringExtra("email");
+        sharedPrefManager = SharedPrefManager.getInstance(this);
+        String currentUser = sharedPrefManager.readString("currentUserType","");
         DataBaseHelper dataBaseadminReserves = new DataBaseHelper(AllReserves.this, "CarsDatabase", null, 1);
         Cursor adminCursor;
         if (currentUser.equals("Admin")){
             adminCursor = dataBaseadminReserves.getReservation();
         }else{
-            adminCursor = dataBaseadminReserves.getUserReservation(currentUser);
+            adminCursor = dataBaseadminReserves.getUserReservation(sharedPrefManager.readString("currentUserEmail",""));
         }
 
         LinearLayout nameLayout = findViewById(R.id.name);

@@ -1,6 +1,7 @@
 package edu.birzeit.advancecardealer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,18 +15,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.birzeit.advancecardealer.user.HomePage;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 public class SignPage extends AppCompatActivity {
+    private SharedViewModel sharedViewModel;
+
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
                     "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -56,6 +51,7 @@ public class SignPage extends AppCompatActivity {
         setContentView(R.layout.activity_sign_page);
         Intent checkIntent = getIntent();
         String getType = checkIntent.getStringExtra("Type");
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         System.out.println("------------------------------------------ " + getType);
 
         DataBaseHelper dataBaseSign = new DataBaseHelper(SignPage.this, "CarsDatabase", null, 1);
@@ -149,9 +145,9 @@ public class SignPage extends AppCompatActivity {
                         checkEmail.show();
                     }else{
                         if(getType.equals("Admin")){
-                            dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "Admin", zip.getText().toString() + phone.getText().toString()));
+                            dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "Admin", zip.getText().toString() + phone.getText().toString(),"https://th.bing.com/th/id/OIP.d_V5Ti60n3mJuPheks-k4AHaHa?rs=1&pid=ImgDetMain"));
                         }else{
-                            dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "User", zip.getText().toString() + phone.getText().toString()));
+                            dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "User", zip.getText().toString() + phone.getText().toString(),"https://th.bing.com/th/id/OIP.d_V5Ti60n3mJuPheks-k4AHaHa?rs=1&pid=ImgDetMain"));
                         }
                         Intent signIntent = new Intent(SignPage.this, HomePage.class);
                         signIntent.putExtra("email",email.getText().toString());

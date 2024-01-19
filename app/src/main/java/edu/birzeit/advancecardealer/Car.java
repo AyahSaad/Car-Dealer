@@ -1,6 +1,9 @@
 package edu.birzeit.advancecardealer;
 
-public class Car {
+
+import java.io.Serializable;
+
+public class Car implements Serializable {
     int id;
     String factoryName;
     String type;
@@ -12,12 +15,18 @@ public class Car {
     String fuelType;
     long rating;
     String accident;
-    byte[] image;
+    String color;
+    String  hasAspare;
+    int DoorsCount;
+    String company;
+    String image;
 
-    public Car() {
+    public Car(){
+
+
     }
 
-    public Car(int id, String factoryName, String type, long price, String model, String name, long offer, String year, String fuelType, long rating, String accident,byte [] image) {
+    public Car(int id, String factoryName, String type, long price, String model, String name, long offer, String year, String fuelType, long rating, String accident, String color, String hasAspare, int doorsCount, String  image,String company) {
         this.id = id;
         this.factoryName = factoryName;
         this.type = type;
@@ -29,7 +38,11 @@ public class Car {
         this.fuelType = fuelType;
         this.rating = rating;
         this.accident = accident;
+        this.color = color;
+        this.hasAspare = hasAspare;
+        this.DoorsCount = doorsCount;
         this.image = image;
+        this.company = company;
     }
 
 
@@ -120,11 +133,11 @@ public class Car {
     public void setAccident(String accident) {
         this.accident = accident;
     }
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -146,4 +159,35 @@ public class Car {
     }
 
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getHasAspare() {
+        return hasAspare;
+    }
+
+    public void setHasAspare(String hasAspare) {
+        this.hasAspare = hasAspare;
+    }
+
+    public int getDoorsCount() {
+        return DoorsCount;
+    }
+
+    public void setDoorsCount(int doorsCount) {
+        DoorsCount = doorsCount;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
 }

@@ -1,4 +1,4 @@
-package edu.birzeit.advancecardealer.user;
+package edu.birzeit.advancecardealer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import edu.birzeit.advancecardealer.LoginPage;
-import edu.birzeit.advancecardealer.R;
 
 public class ContactUs extends AppCompatActivity {
 

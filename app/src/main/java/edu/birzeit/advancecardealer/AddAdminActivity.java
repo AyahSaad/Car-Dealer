@@ -1,13 +1,10 @@
-package edu.birzeit.advancecardealer.admin;
+package edu.birzeit.advancecardealer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import edu.birzeit.advancecardealer.R;
-import edu.birzeit.advancecardealer.SignPage;
 
 public class AddAdminActivity extends AppCompatActivity {
 

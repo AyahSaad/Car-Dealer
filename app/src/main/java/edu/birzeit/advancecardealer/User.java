@@ -11,11 +11,12 @@ public class User {
     String city;
     String type;
     String phone;
+    String  image;
 
 
     public User() { }
 
-    public User(String firstName, String lastName, String email, String password, String gender, String country, String city, String type, String phone) {
+    public User(String firstName, String lastName, String email, String password, String gender, String country, String city, String type, String phone, String image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -25,6 +26,7 @@ public class User {
         this.city = city;
         this.type = type;
         this.phone = phone;
+        this.image = image;
     }
 
     public int getId() {
@@ -121,5 +123,13 @@ public class User {
                 ", type='" + type + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

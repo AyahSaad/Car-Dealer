@@ -1,9 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.AdminOffers">
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".AddAdminActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/signBack"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="onBackButtonClick"
+            app:srcCompat="@drawable/ic_arrow"/>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Add Offer"
+            android:textColor="#0C0C0C"
+            android:textSize="30sp"
+            android:clickable="true"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/Factory_Name"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="40dp"
+        android:ems="10"
+        android:hint="Factory Name"
+        android:inputType="text"
+        android:textColor="#959090"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/Car_Name"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="40dp"
+        android:ems="10"
+        android:hint="Car Name"
+        android:inputType="textPassword"
+        android:textColor="#959090"
+        android:textColorHint="#959090"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/Search"
+            android:layout_width="172dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="80dp"
+            android:background="#000000"
+            android:text="Search"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Search" />
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/AddOfferLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_margin="15dp"-->
+<!--                android:padding="10dp">-->
+<!--            </androidx.cardview.widget.CardView>-->
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
