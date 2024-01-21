@@ -3,44 +3,45 @@ package edu.birzeit.advancecardealer;
 import static edu.birzeit.advancecardealer.CarJsonParser.cars;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import edu.birzeit.advancecardealer.R;
-import edu.birzeit.advancecardealer.SharedPrefManager;
-import edu.birzeit.advancecardealer.SharedViewModel;
+public class offeredCars extends AppCompatActivity {
 
-public class CarsMenu extends AppCompatActivity {
-    SharedPrefManager sharedPrefManager;
+    public static List<Car> offers = new ArrayList<>();
+    List<Car>  carOffers;
     private RecyclerView recyclerView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cars_menu);
-        sharedPrefManager = SharedPrefManager.getInstance(this);
-        recyclerView = findViewById(R.id.recyclerView);
+        setContentView(R.layout.activity_offered_cars);
+        recyclerView = findViewById(R.id.recyclerView2);
 
+
+        for (Car car : cars) {
+            if (car.getOffer() > 0) {
+                offers.add(car);
+
+            }
+        }
 
         setuprecyclerview();
 
-
-    }
+        }
 
     private void setuprecyclerview(){
 
-        MyAdapter myAdapter = new MyAdapter(this,cars);
+        MyAdapter myAdapter = new MyAdapter(this,offers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myAdapter);
 
 
     }
-}
+    }

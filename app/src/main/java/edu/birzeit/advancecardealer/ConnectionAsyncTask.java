@@ -34,10 +34,12 @@ public class ConnectionAsyncTask extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
         System.out.println("-----------------------------------------------");
         System.out.println(isConnected());
-        for(int index=0;index<cars.size();index++){
-            System.out.println("-----------------------------------------------");
-            dataBaseHelper.insertCar(new Car(cars.get(index).getId(), cars.get(index).getFactoryName(), cars.get(index).getType(), cars.get(index).getPrice(), cars.get(index).getModel(), cars.get(index).getName(), cars.get(index).getOffer(), cars.get(index).getYear(), cars.get(index).getFuelType(), cars.get(index).getRating(), cars.get(index).getAccident(), cars.get(index).getColor(),cars.get(index).getHasAspare(),cars.get(index).getDoorsCount(),cars.get(index).getImage(),cars.get(index).getCompany()));
-        }
+
+
+//        for(int index=0;index<cars.size();index++){
+//            System.out.println("----------------------------------------------- "+cars.get(index).getFuelType());
+//            dataBaseHelper.insertCar(new Car(cars.get(index).getId(), cars.get(index).getFactoryName(), cars.get(index).getType(), cars.get(index).getPrice(), cars.get(index).getModel(), cars.get(index).getName(), cars.get(index).getOffer(), cars.get(index).getYear(), cars.get(index).getFuelType(), cars.get(index).getRating(), cars.get(index).getAccident(), cars.get(index).getColor(),cars.get(index).getHasAspare(),cars.get(index).getDoorsCount(),cars.get(index).getImage(),cars.get(index).getCompany()));
+//        }
         if (isConnected()) {
 
             return HttpManager.getData(params[0]);
@@ -51,8 +53,10 @@ public class ConnectionAsyncTask extends AsyncTask<String, String, String> {
         if (result != null) {
 
             List<Car> cars = CarJsonParser.getObjectFromJson(result);
+            for(Car car: cars){
+                dataBaseHelper.insertCar(car);
+            }
             Intent gregSection =  new Intent(activity, RegSection.class);
-           gregSection.putExtra("CARSList", (Serializable) cars);
             activity.startActivity(gregSection);
         } else {
             Toast.makeText(activity, "No Internet Connection or Failed to Fetch Data", Toast.LENGTH_SHORT).show();

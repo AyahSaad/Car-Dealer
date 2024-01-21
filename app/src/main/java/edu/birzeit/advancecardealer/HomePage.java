@@ -7,12 +7,14 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
 import java.util.Objects;
 
 public class HomePage extends AppCompatActivity {
@@ -42,6 +44,8 @@ public class HomePage extends AppCompatActivity {
         drawerToggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -50,7 +54,7 @@ public class HomePage extends AppCompatActivity {
                     Toast.makeText(HomePage.this, "Home page", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.CarMenu) {
-                    intent = new Intent(HomePage.this, HomePage.class);
+                    intent = new Intent(HomePage.this, CarsMenu.class);
                     Toast.makeText(HomePage.this, "CarMenu", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.Reservations) {
@@ -64,7 +68,7 @@ public class HomePage extends AppCompatActivity {
                     Toast.makeText(HomePage.this, "Favorites", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.Offer) {
-                    intent = new Intent(HomePage.this, HomePage.class);
+                    intent = new Intent(HomePage.this, offeredCars.class);
 
                     Toast.makeText(HomePage.this, "Offers", Toast.LENGTH_SHORT).show();
                     startActivity(intent);

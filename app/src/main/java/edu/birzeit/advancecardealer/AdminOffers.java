@@ -1,4 +1,6 @@
 package edu.birzeit.advancecardealer;
+import static edu.birzeit.advancecardealer.CarJsonParser.cars;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
@@ -93,7 +95,7 @@ public class AdminOffers extends AppCompatActivity {
 
         // Get data from the cursor
         if (!offerCursor.isNull(offerCursor.getColumnIndex("ID"))) {
-            String id = offerCursor.getString(offerCursor.getColumnIndex("ID"));
+            int id = offerCursor.getInt(offerCursor.getColumnIndex("ID"));
             String factoryName = offerCursor.getString(offerCursor.getColumnIndex("FACTORY_NAME"));
             String carName = offerCursor.getString(offerCursor.getColumnIndex("NAME"));
             String price = offerCursor.getString(offerCursor.getColumnIndex("PRICE"));
@@ -124,7 +126,17 @@ public class AdminOffers extends AppCompatActivity {
                                     double newPrice = originalPrice - discount;
 
                                     // Update the database with the new offer
-                                    dataBaseAddOffers.addOffer(Integer.parseInt(id), newoffer);
+
+                                    dataBaseAddOffers.addOffer(id, percentage / 100);
+
+
+                                    for (Car cars: cars){
+                                        if (cars.getId() == id){
+                                            cars.setOffer(percentage / 100);
+                                            System.out.println("========= " + cars.getFactoryName() + "=========" +cars.getOffer());
+
+                                        }
+                                    }
                                     // Update the TextView with the new offer
                                     offerTextView.setText("Offer: " + newoffer);
                                     priceTextView.setText("Price: " + newPrice);

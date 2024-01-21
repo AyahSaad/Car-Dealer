@@ -1,19 +1,21 @@
 package edu.birzeit.advancecardealer;
 
 
+import android.os.Bundle;
+
 import java.io.Serializable;
 
-public class Car implements Serializable {
+public class Car  {
     int id;
     String factoryName;
     String type;
-    long price;
+    double price;
     String model;
     String name;
-    long offer;
+    double offer;
     String year;
     String fuelType;
-    long rating;
+    double rating;
     String accident;
     String color;
     String  hasAspare;
@@ -26,7 +28,7 @@ public class Car implements Serializable {
 
     }
 
-    public Car(int id, String factoryName, String type, long price, String model, String name, long offer, String year, String fuelType, long rating, String accident, String color, String hasAspare, int doorsCount, String  image,String company) {
+    public Car(int id, String factoryName, String type, double price, String model, String name, double offer, String year, String fuelType, double rating, String accident, String color, String hasAspare, int doorsCount, String  image,String company) {
         this.id = id;
         this.factoryName = factoryName;
         this.type = type;
@@ -70,11 +72,11 @@ public class Car implements Serializable {
         this.type = type;
     }
 
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -94,11 +96,11 @@ public class Car implements Serializable {
         this.name = name;
     }
 
-    public long getOffer() {
+    public double getOffer() {
         return offer;
     }
 
-    public void setOffer(long offer) {
+    public void setOffer(double offer) {
         this.offer = offer;
     }
 
@@ -118,11 +120,11 @@ public class Car implements Serializable {
         this.fuelType = fuelType;
     }
 
-    public long getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(long rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

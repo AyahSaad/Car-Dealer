@@ -13,6 +13,8 @@ import java.util.List;
 public class CarJsonParser {
 
     public static List<Car> cars = new ArrayList<>();
+    private DataBaseHelper dataBaseHelper;
+
 
     public static List<Car> getObjectFromJson(String json) {
 
@@ -28,22 +30,19 @@ public class CarJsonParser {
                 car.setId(jsonObject.getInt("ID"));
                 car.setFactoryName(jsonObject.getString("FACTORY_NAME"));
                 car.setType(jsonObject.getString("TYPE"));
-                car.setPrice(jsonObject.getLong("PRICE"));
+                car.setPrice(jsonObject.getDouble("PRICE"));
                 car.setModel(jsonObject.getString("MODEL"));
                 car.setName(jsonObject.getString("NAME"));
-                car.setOffer(jsonObject.getLong("OFFER"));
+                car.setOffer(jsonObject.getDouble("OFFER"));
                 car.setYear(jsonObject.getString("YEAR"));
                 car.setFuelType(jsonObject.getString("FUEL_TYPE"));
-                car.setRating(jsonObject.getLong("RATING"));
+                car.setRating(jsonObject.getDouble("RATING"));
                 car.setAccident(jsonObject.getString("ACCIDENT"));
                 car.setDoorsCount(jsonObject.getInt("DOORS"));
                 car.setHasAspare(jsonObject.getString("SPARE"));
                 car.setColor(jsonObject.getString("COLOR"));
                 car.setCompany(jsonObject.getString("COMPANY"));
                 car.setImage(jsonObject.getString("IMAGE"));
-
-
-                System.out.println("-----------------------------------"+jsonObject.getString("IMAGE"));
                 cars.add(car);
 
             }

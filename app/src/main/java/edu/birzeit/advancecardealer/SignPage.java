@@ -41,7 +41,9 @@ public class SignPage extends AppCompatActivity {
         return matcher.matches();
     }
 
-    SharedPrefManager preferences;
+    private  SharedPrefManager preferences;
+
+
 
 
 
@@ -53,7 +55,7 @@ public class SignPage extends AppCompatActivity {
         String getType = checkIntent.getStringExtra("Type");
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         System.out.println("------------------------------------------ " + getType);
-
+        preferences = SharedPrefManager.getInstance(this);
         DataBaseHelper dataBaseSign = new DataBaseHelper(SignPage.this, "CarsDatabase", null, 1);
         EditText firstName = findViewById(R.id.firstName);
         EditText lastName = findViewById(R.id.lastName);
@@ -145,8 +147,11 @@ public class SignPage extends AppCompatActivity {
                         checkEmail.show();
                     }else{
                         if(getType.equals("Admin")){
+                            preferences.writeString("currentUserType","Admin");
                             dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "Admin", zip.getText().toString() + phone.getText().toString(),"https://th.bing.com/th/id/OIP.d_V5Ti60n3mJuPheks-k4AHaHa?rs=1&pid=ImgDetMain"));
                         }else{
+                            preferences.writeString("currentUserType","User");
+                            preferences.writeString("currentUserEmail", email.getText().toString().toLowerCase());
                             dataBaseSign.insertUser(new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString().toLowerCase(), password.getText().toString(), genderSpinner.getSelectedItem().toString(), countrySpinner.getSelectedItem().toString(), citySpinner.getSelectedItem().toString(), "User", zip.getText().toString() + phone.getText().toString(),"https://th.bing.com/th/id/OIP.d_V5Ti60n3mJuPheks-k4AHaHa?rs=1&pid=ImgDetMain"));
                         }
                         Intent signIntent = new Intent(SignPage.this, HomePage.class);

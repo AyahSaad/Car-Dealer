@@ -100,13 +100,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     card_view:ignore="RtlCompat" />
-                <EditText
-                    android:id="@+id/editCountry"
-                    android:layout_width="match_parent"
+                <!--                <EditText-->
+                <!--                    android:id="@+id/editCountry"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:hint="Enter new Country"-->
+                <!--                    android:visibility=""-->
+                <!--                    android:inputType="text" />-->
+                <Spinner
+                    android:id="@+id/country_Spinner"
+                    android:layout_width="271dp"
                     android:layout_height="wrap_content"
-                    android:hint="Enter new Country"
-                    android:visibility="gone"
-                    android:inputType="text" />
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/saveCountryButton"
@@ -116,13 +121,12 @@
                     android:visibility="gone"
                     android:onClick="saveCountry" />
 
-                <EditText
-                    android:id="@+id/editCity"
-                    android:layout_width="match_parent"
+
+                <Spinner
+                    android:id="@+id/city_Spinner"
+                    android:layout_width="271dp"
                     android:layout_height="wrap_content"
-                    android:hint="Enter new City"
-                    android:visibility="gone"
-                    android:inputType="text" />
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/saveCityButton"

@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdvanceCarDealer">
         <activity
+            android:name=".offeredCars"
+            android:exported="false" />
+        <activity
             android:name=".CarsMenu"
             android:exported="false" />
         <activity

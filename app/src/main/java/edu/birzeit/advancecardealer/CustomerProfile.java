@@ -6,10 +6,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -40,18 +42,23 @@ public class CustomerProfile extends AppCompatActivity {
     private Button savePhoneButton;
     private EditText editEmail;
     private Button saveEmailButton;
-    private EditText editCountry;
+    //private EditText editCountry;
     private Button saveCountryButton;
-    private EditText editCity;
+    //private EditText editCity;
     private Button saveCityButton;
     private EditText editFirstName;
     private Button saveFirstNameButton;
     private EditText editLastName;
     private Button saveLastNameButton;
-    private EditText editGender;
+    //private EditText editGender;
     private Button saveGenderButton;
     private EditText editPassword;
     private Button savePasswordButton;
+
+    private Spinner edit_gender_Spinner;
+    private Spinner edit_country_Spinner;
+    private Spinner edit_city_Spinner;
+
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -92,7 +99,9 @@ public class CustomerProfile extends AppCompatActivity {
         saveFirstNameButton = findViewById(R.id.saveFirstNameButton);
         editLastName = findViewById(R.id.editLastName);
         saveLastNameButton = findViewById(R.id.saveLastNameButton);
-        editGender = findViewById(R.id.editGender);
+//        editGender = findViewById(R.id.editGender);
+
+        edit_gender_Spinner = findViewById(R.id.gender_Spinner);
         saveGenderButton = findViewById(R.id.saveGenderButton);
         editPassword = findViewById(R.id.editPassword);
         savePasswordButton = findViewById(R.id.savePasswordButton);
@@ -101,9 +110,11 @@ public class CustomerProfile extends AppCompatActivity {
         savePhoneButton = findViewById(R.id.savePhoneButton);
         editEmail = findViewById(R.id.editEmail);
         saveEmailButton = findViewById(R.id.saveEmailButton);
-        editCountry = findViewById(R.id.editCountry);
+        // editCountry = findViewById(R.id.editCountry);
+        edit_country_Spinner = findViewById(R.id.country_Spinner);
         saveCountryButton = findViewById(R.id.saveCountryButton);
-        editCity = findViewById(R.id.editCity);
+        // editCity = findViewById(R.id.editCity);
+        edit_city_Spinner = findViewById(R.id.city_Spinner);
         saveCityButton = findViewById(R.id.saveCityButton);
 
         Intent intent = getIntent();
@@ -212,7 +223,6 @@ public class CustomerProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showEditCountry();
-                showEditCity();
             }
         });
 
@@ -230,7 +240,6 @@ public class CustomerProfile extends AppCompatActivity {
             }
         });
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -323,20 +332,11 @@ public class CustomerProfile extends AppCompatActivity {
         int visibility = (editPhone.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
         editPhone.setVisibility(visibility);
         savePhoneButton.setVisibility(visibility);
-        // Clear the previous input when the elements are hidden
-        if (visibility == View.GONE) {
-            editPhone.setText("");
-        } else {
-            // Set the current phone number as the default value for editing
-            editPhone.setText(viewPhone.getText().toString());
-        }
     }
 
     public void savePhone(String email) {
         String newPhone = editPhone.getText().toString().trim();
-
         if (!newPhone.isEmpty() && newPhone.length() == 10) {
-            //TODO: ADD NEW CHECK IF newPhone < 10 and add Toast Message
             dataBaseCustomerProfile.updatePhone(email,newPhone);
             viewPhone.setText(newPhone);
             editPhone.setVisibility(View.GONE);
@@ -372,48 +372,64 @@ public class CustomerProfile extends AppCompatActivity {
     }
 
     public void showEditCountry() {
-        int visibility = (editCountry.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
-        editCountry.setVisibility(visibility);
+        int visibility = (edit_country_Spinner.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
+        edit_country_Spinner.setVisibility(visibility);
         saveCountryButton.setVisibility(visibility);
-
-        if (visibility == View.GONE) {
-            editCountry.setText("");
-        } else {
-            editCountry.setText(viewCountry.getText().toString());
-        }
+        int visibility1 = (edit_city_Spinner.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
+        edit_city_Spinner.setVisibility(visibility1);
+        saveCityButton.setVisibility(visibility1);
+        String [] countryOptions = {"Select Country" , "Palestine" , "Egypt", "Syria", "Jordan"};
+        ArrayAdapter<String> obCountryArray = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, countryOptions);
+        edit_country_Spinner.setAdapter(obCountryArray);
     }
 
     public void saveCountry(String email) {
-        String newCountry = editCountry.getText().toString().trim();
+        String [] palestine = {"Select City" , "Ramallah" , "Nablus","Hebron"};
+        String [] jordan = {"Select City" , "Amman" , "Irbid","Aqaba"};
+        String [] egypt = {"Select City" , "Alexandria" , "Cairo","Luxor"};
+        String []  syria = {"Select City" , "Damascus" , "Aleppo","Homs"};
+
+        String newCountry = edit_country_Spinner.getSelectedItem().toString().trim();
         if (!newCountry.isEmpty()) {
             dataBaseCustomerProfile.updateCountry(email,newCountry);
             viewCountry.setText(newCountry);
-            editCountry.setVisibility(View.GONE);
+            edit_country_Spinner.setVisibility(View.GONE);
             saveCountryButton.setVisibility(View.GONE);
+
+            if (newCountry.equals("Palestine")) {
+                ArrayAdapter<String> obCityArray = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, palestine);
+                obCityArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                edit_city_Spinner.setAdapter(obCityArray);
+                editPhone.setText("00970");
+            }else if (newCountry.equals("Egypt")){
+                ArrayAdapter<String> obCityArray = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,egypt);
+                obCityArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                edit_city_Spinner.setAdapter(obCityArray);
+                editPhone.setText("0020");
+            }else if (newCountry.equals("Syria")){
+                ArrayAdapter<String> obCityArray = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,syria);
+                obCityArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                edit_city_Spinner.setAdapter(obCityArray);
+                editPhone.setText("00963");
+
+            }else if (newCountry.equals("Jordan")) {
+                ArrayAdapter<String> obCityArray = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, jordan);
+                obCityArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                edit_city_Spinner.setAdapter(obCityArray);
+                editPhone.setText("00962");
+            }
         } else {
             Toast.makeText(this, "Please enter a valid Country", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    public void showEditCity() {
-        // Toggle visibility of the edit phone elements
-        int visibility = (editCity.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
-        editCity.setVisibility(visibility);
-        saveCityButton.setVisibility(visibility);
-        if (visibility == View.GONE) {
-            editCity.setText("");
-        } else {
-            editCity.setText(viewCity.getText().toString());
-        }
-    }
-
     public void saveCity(String email) {
-        String newCity = editCity.getText().toString().trim();
+        String newCity = edit_city_Spinner.getSelectedItem().toString().trim();
         if (!newCity.isEmpty()) {
             dataBaseCustomerProfile.updateCity(email,newCity);
             viewCity.setText(newCity);
-            editCity.setVisibility(View.GONE);
+            edit_city_Spinner.setVisibility(View.GONE);
             saveCityButton.setVisibility(View.GONE);
         } else {
             Toast.makeText(this, "Please enter a valid city", Toast.LENGTH_SHORT).show();
@@ -470,23 +486,20 @@ public class CustomerProfile extends AppCompatActivity {
     }
 
     public void showEditGender() {
-        int visibility = (editGender.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
-        editGender.setVisibility(visibility);
+        int visibility = (edit_gender_Spinner.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
+        edit_gender_Spinner.setVisibility(visibility);
         saveGenderButton.setVisibility(visibility);
-
-        if (visibility == View.GONE) {
-            editGender.setText("");
-        } else {
-            editGender.setText(genderTextView.getText().toString());
-        }
+        String [] genderOptions = {"Select Gender" , "Male" , "Female"};
+        ArrayAdapter<String> objGenderArray = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, genderOptions);
+        edit_gender_Spinner.setAdapter(objGenderArray);
     }
 
     public void saveGender(String email) {
-        String newGender = editGender.getText().toString().trim();
+        String newGender = edit_gender_Spinner.getSelectedItem().toString().trim();
         if (!newGender.isEmpty()) {
             dataBaseCustomerProfile.updateGender(email,newGender);
             genderTextView.setText(newGender);
-            editGender.setVisibility(View.GONE);
+            edit_gender_Spinner.setVisibility(View.GONE);
             saveGenderButton.setVisibility(View.GONE);
         } else {
             Toast.makeText(this, "Please enter a valid Gender", Toast.LENGTH_SHORT).show();

@@ -17,15 +17,6 @@ public class RegSection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_section);
         DataBaseHelper dataBaseReg = new DataBaseHelper(RegSection.this, "CarsDatabase", null, 1);
-        Cursor cursor = dataBaseReg.getCar();
-
-        for (int i =0; i<cars.size();i++){
-           Car car = new Car(cars.get(i).getId(),cars.get(i).getFactoryName(),cars.get(i).getType(),cars.get(i).getPrice(),cars.get(i).getModel(),cars.get(i).getName(),cars.get(i).getOffer(),cars.get(i).getYear(),cars.get(i).getFuelType(),cars.get(i).getRating(),cars.get(i).getAccident(),cars.get(i).getColor(),cars.get(i).getHasAspare(),cars.get(i).getDoorsCount(),cars.get(i).getImage(),cars.get(i).getCompany());
-            dataBaseReg.insertCar(car);
-        }
-
-
-
 
 
         Button signup = findViewById(R.id.signUp);
