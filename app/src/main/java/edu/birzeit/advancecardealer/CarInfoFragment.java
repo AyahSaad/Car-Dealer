@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -126,7 +127,7 @@ public class CarInfoFragment extends Fragment implements Popup.PopupListener{
         TextView offer = rootView.findViewById(R.id.textOffers);
         TextView doors = rootView.findViewById(R.id.textDoor);
         Button reserve = rootView.findViewById(R.id.ReserveButton);
-        ImageView like = rootView.findViewById(R.id.likeButton);
+        ImageView like = rootView.findViewById(R.id.imageView3);
         Date currentDate = new Date();
         Dialog  popUp = new Dialog(getActivity());
         CommonFunctions commonFunctions = new CommonFunctions();
@@ -135,7 +136,6 @@ public class CarInfoFragment extends Fragment implements Popup.PopupListener{
             @Override
             public void onClick(View view) {
                 if (returned[0] == true) {
-                    isConfirmed[0] = false;
                     while (isReserved.moveToNext()) {
                         if (isReserved.getString(isReserved.getColumnIndex("USER_EMAIL")).equals(sharedPrefManager.readString("currentUserEmail", "")) &&
                                 isReserved.getInt(isReserved.getColumnIndex("CAR_ID")) == list.get(clickedPosition).getId()) {
@@ -173,25 +173,7 @@ public class CarInfoFragment extends Fragment implements Popup.PopupListener{
 
 
         });
-//        while (isReserved.moveToNext()){
-//            if(isReserved.getString(isReserved.getColumnIndex("USER_EMAIL")).equals(sharedPrefManager.readString("currentUserEmail","")) &&
-//                    isReserved.getInt(isReserved.getColumnIndex("CAR_ID")) == list.get(clickedPosition).getId()){
-//                reserve.setText("Return");
-//                reserve.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//
-//                        System.out.println("==================================== Current User " + currentDate.toString());
-//                        System.out.println("==================================== Current Car " + commonFunctions.formattedDate(currentDate));
-//                        System.out.println("==================================== Current Date " + commonFunctions.formattedTime(currentDate));
-//
-//                        //dataBaseInfo.updateReturnedDate(list.get(clickedPosition).getId(),sharedPrefManager.readString("currentUserEmail",""),commonFunctions.formattedDate(currentDate));
-//
-//                    }
-//                });
-//
-//            }
-//        }
+
         Glide.with(this).load(list.get(clickedPosition).getImage()).apply(option).into(imageView);
         name.setText(list.get(clickedPosition).getName());
         type.setText(list.get(clickedPosition).getType());
@@ -204,36 +186,26 @@ public class CarInfoFragment extends Fragment implements Popup.PopupListener{
         price.setText(String.valueOf( (int)newPrice ));
         offer.setText(String.valueOf(list.get(clickedPosition).getOffer()));
         doors.setText(String.valueOf(list.get(clickedPosition).getDoorsCount()));
-//        reserve.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Reserve reserve1 = new Reserve();
-//                reserve1.setEmail(sharedPrefManager.readString("currentUserEmail",""));
-//                reserve1.setCarId(list.get(clickedPosition).getId());
-//                System.out.println("==================================== Current Date " + currentDate.toString());
-//                System.out.println("==================================== Current Date " + commonFunctions.formattedDate(currentDate));
-//                System.out.println("==================================== Current Time " + commonFunctions.formattedTime(currentDate));
-//                reserve1.setDate(commonFunctions.formattedDate(currentDate));
-//                reserve1.setTime(commonFunctions.formattedTime(currentDate));
-//                //todo: reserv table
-//                System.out.println(reserve1.toString());
-//                dataBaseInfo.insertReservation(reserve1);
-//
-//            }
-//        });
+
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 likeStatus[0] = !likeStatus[0];
                 Cursor cursor = dataBaseInfo.getFav();
 
+
                 if (likeStatus[0]){
+                    TransitionDrawable transitionDrawable = (TransitionDrawable) like.getDrawable();
+                    transitionDrawable.startTransition(1000);
                     Favorite fav = new Favorite();
                     fav.setCarId(list.get(clickedPosition).getId());
                     fav.setUseremail(sharedPrefManager.readString("currentUserEmail",""));
                     dataBaseInfo.insertFav(fav);
 
                 }else {
+                    TransitionDrawable transitionDrawable = (TransitionDrawable) like.getDrawable();
+                    transitionDrawable.reverseTransition(1000);
+
                     while (cursor.moveToNext()){
                         if (cursor.getString(cursor.getColumnIndex("USER_EMAIL")).equals(sharedPrefManager.readString("currentUserEmail","")) &&
                              cursor.getInt(cursor.getColumnIndex("CAR_ID")) == list.get(clickedPosition).getId()){
@@ -250,7 +222,7 @@ public class CarInfoFragment extends Fragment implements Popup.PopupListener{
 
             }
         });
-        //Todo : onklick like
+
 
 
 

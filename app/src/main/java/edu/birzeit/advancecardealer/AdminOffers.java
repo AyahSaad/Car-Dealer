@@ -94,6 +94,7 @@ public class AdminOffers extends AppCompatActivity {
         TextView priceTextView = new TextView(AdminOffers.this);
         TextView offerTextView = new TextView(AdminOffers.this);
         EditText newOffer = new EditText(AdminOffers.this);
+        TextView blank = new TextView(AdminOffers.this);
         Button SaveButton = new Button(AdminOffers.this);
         newOffer.setHint("Add Offer");
         newOffer.setTextSize(13);
@@ -124,9 +125,23 @@ public class AdminOffers extends AppCompatActivity {
 
             // Set text for TextViews based on the retrieved data
             factoryNameTextView.setText("Factory Name: " + factoryName);
+            factoryNameTextView.setTypeface(null, Typeface.BOLD);
             carNameTextView.setText("Car Name: " + carName);
+            carNameTextView.setTypeface(null, Typeface.BOLD);
             priceTextView.setText("price: " + price);
+            priceTextView.setTypeface(null, Typeface.BOLD);;
             offerTextView.setText("Offer: " + offer);
+            offerTextView.setTypeface(null, Typeface.BOLD);
+            blank.setText("");
+            blank.setBackgroundColor(Color.BLACK);
+
+            int typeTextViewHeight = 5;
+
+            LinearLayout.LayoutParams typeTextViewParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    typeTextViewHeight
+            );
+            blank.setLayoutParams(typeTextViewParams);
 
             //todo price offer
             rowLayout.setTag(id);
@@ -193,6 +208,7 @@ public class AdminOffers extends AppCompatActivity {
             colLayout.addView(priceTextView);
             colLayout.addView(offerTextView);
             colLayout.addView(newOffer);
+            colLayout.addView(blank);
             rowLayout.addView(colLayout);
             rowLayout.addView(SaveButton);
         }

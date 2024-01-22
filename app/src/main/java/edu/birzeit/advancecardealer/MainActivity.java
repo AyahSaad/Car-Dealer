@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 getStarted.setBackgroundColor(Color.BLACK);
                 ConnectionAsyncTask connectionAsyncTask = new ConnectionAsyncTask(MainActivity.this,MainActivity.this,dataBaseMain);
-                //connectionAsyncTask.execute("https://cardealer.free.beeceptor.com/cars");
-                connectionAsyncTask.execute("https://carss.free.beeceptor.com/cars1");
+                connectionAsyncTask.execute("https://cardealer.free.beeceptor.com/cars");
+               // connectionAsyncTask.execute("https://carss.free.beeceptor.com/cars1");
             }
         });
 

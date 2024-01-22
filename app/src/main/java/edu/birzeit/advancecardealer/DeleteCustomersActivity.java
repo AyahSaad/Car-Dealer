@@ -1,5 +1,6 @@
 package edu.birzeit.advancecardealer;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class DeleteCustomersActivity extends AppCompatActivity {
     private static final String Toast_Text1 = "Please Enter the Customer Details";
@@ -68,6 +71,7 @@ public class DeleteCustomersActivity extends AppCompatActivity {
         TextView phoneTextView = new TextView(DeleteCustomersActivity.this);
         TextView locationTextView = new TextView(DeleteCustomersActivity.this);
         TextView TypeTextView = new TextView(DeleteCustomersActivity.this);
+        TextView blank = new TextView(DeleteCustomersActivity.this);
 
         Button DeleteButton = new Button(DeleteCustomersActivity.this);
         DeleteButton.setTextSize(16);
@@ -75,7 +79,7 @@ public class DeleteCustomersActivity extends AppCompatActivity {
         DeleteButton.setWidth(150);
         DeleteButton.setHeight(80);
         DeleteButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        DeleteButton.setBackgroundColor(Color.parseColor("#6200EE"));
+        DeleteButton.setBackgroundColor(Color.BLACK);
         DeleteButton.setTextColor(Color.WHITE);
         DeleteButton.setTypeface(null, Typeface.BOLD);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -98,14 +102,42 @@ public class DeleteCustomersActivity extends AppCompatActivity {
             String Type = customerCursor.getString(customerCursor.getColumnIndex("TYPE"));
 
             if (Type.equals("User")){
+
                 // Set text for TextViews based on the retrieved data
                 firstNameTextView.setText("First Name: " + firstName);
+                firstNameTextView.setTextSize(16);
+                firstNameTextView.setTextColor(Color.BLACK);
+                firstNameTextView.setTypeface(null, Typeface.BOLD);
                 lastNameTextView.setText("Last Name: " + lastName);
+                lastNameTextView.setTextSize(16);
+                lastNameTextView.setTextColor(Color.BLACK);
+                lastNameTextView.setTypeface(null, Typeface.BOLD);
                 emailTextView.setText("Email: " + email);
+                emailTextView.setTextSize(16);
+                emailTextView.setTextColor(Color.BLACK);
+                emailTextView.setTypeface(null, Typeface.BOLD);
                 phoneTextView.setText("Phone: " + phone);
+                phoneTextView.setTextSize(16);
+                phoneTextView.setTextColor(Color.BLACK);
+                phoneTextView.setTypeface(null, Typeface.BOLD);
                 locationTextView.setText("Location: " + country + ", " + city);
+                locationTextView.setTextSize(16);
+                locationTextView.setTextColor(Color.BLACK);
+                locationTextView.setTypeface(null, Typeface.BOLD);
                 TypeTextView.setText("Type: " + Type);
+                TypeTextView.setTextSize(16);
+                TypeTextView.setTextColor(Color.BLACK);
+                TypeTextView.setTypeface(null, Typeface.BOLD);
+                blank.setText("");
+                blank.setBackgroundColor(Color.RED);
 
+                int typeTextViewHeight = 5;
+
+                LinearLayout.LayoutParams typeTextViewParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        typeTextViewHeight
+                );
+                blank.setLayoutParams(typeTextViewParams);
                 rowLayout.setTag(email);
                 DeleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -119,6 +151,7 @@ public class DeleteCustomersActivity extends AppCompatActivity {
                 colLayout.addView(emailTextView);
                 colLayout.addView(phoneTextView);
                 colLayout.addView(locationTextView);
+                colLayout.addView(blank);
                 rowLayout.addView(colLayout);
                 rowLayout.addView(DeleteButton);
             }

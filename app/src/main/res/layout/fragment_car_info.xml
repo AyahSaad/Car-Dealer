@@ -99,11 +99,11 @@
                             android:textSize="18sp" />
 
                         <ImageView
-                            android:id="@+id/likeButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="55dp"
+                            android:id="@+id/imageView3"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:src="@drawable/ic_outline_favorite_border_24" />
+                            android:src="@drawable/annimation" />
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

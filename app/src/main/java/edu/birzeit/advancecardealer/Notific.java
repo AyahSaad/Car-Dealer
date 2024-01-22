@@ -1,5 +1,6 @@
 package edu.birzeit.advancecardealer;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -35,7 +36,7 @@ public class Notific extends AppCompatActivity {
             cardView.setCardElevation(8);
             cardView.setRadius(8);
             cardView.setUseCompatPadding(true);
-            cardView.setContentPadding(16, 16, 16, 16);
+            cardView.setContentPadding(80, 40, 80, 40);
             TextView textView = new TextView(this);
             textView.setText( notifier.getString(notifier.getColumnIndex("NOTIFICATION_TEXT")));
             textView.setTextSize(16);
@@ -43,6 +44,13 @@ public class Notific extends AppCompatActivity {
             textView.setTextColor(Color.BLACK);
             textView.setTypeface(null, Typeface.BOLD);
             cardView.addView(textView);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Notific.this,offeredCars.class);
+                    startActivity(intent);
+                }
+            });
             notificationLinearLayout.addView(cardView);
         }
 

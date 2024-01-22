@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:onClick="onBackButtonClick"
-            app:srcCompat="@drawable/ic_arrow"/>
+            app:srcCompat="@drawable/back" />
 
         <TextView
             android:id="@+id/textView1"
