@@ -57,7 +57,7 @@ public class HomePage extends AppCompatActivity {
                     Toast.makeText(HomePage.this, "CarMenu", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.Reservations) {
-                    intent = new Intent(HomePage.this, AllReserves.class);
+                    intent = new Intent(HomePage.this, UserReservation.class);
                     Toast.makeText(HomePage.this, "Reservation", Toast.LENGTH_SHORT).show();
 
                     startActivity(intent);

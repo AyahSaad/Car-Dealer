@@ -50,7 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.nameView.setText(carsListAdapter.get(position).getName());
         holder.typeView.setText(carsListAdapter.get(position).getType());
         double newPrice = (1-carsListAdapter.get(position).getOffer()) * carsListAdapter.get(position).getPrice();
-        holder.priceView.setText(String.valueOf(newPrice));
+        holder.priceView.setText(String.valueOf((int)newPrice));
         holder.ratingView.setText(String.valueOf(carsListAdapter.get(position).getRating()));
 
 

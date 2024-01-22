@@ -22,16 +22,10 @@ public class AllReserves extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_reserves);
-        Intent emailIntent = getIntent();
         sharedPrefManager = SharedPrefManager.getInstance(this);
-        String currentUser = sharedPrefManager.readString("currentUserType","");
         DataBaseHelper dataBaseadminReserves = new DataBaseHelper(AllReserves.this, "CarsDatabase", null, 1);
-        Cursor adminCursor;
-        if (currentUser.equals("Admin")){
-            adminCursor = dataBaseadminReserves.getReservation();
-        }else{
-            adminCursor = dataBaseadminReserves.getUserReservation(sharedPrefManager.readString("currentUserEmail",""));
-        }
+        Cursor adminCursor = dataBaseadminReserves.getReservation();
+
 
         LinearLayout nameLayout = findViewById(R.id.name);
         LinearLayout modelLayout = findViewById(R.id.carModel);

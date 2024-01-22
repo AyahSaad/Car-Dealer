@@ -141,7 +141,6 @@ public class CarInfoFragment extends Fragment implements Popup.PopupListener{
                                 isReserved.getInt(isReserved.getColumnIndex("CAR_ID")) == list.get(clickedPosition).getId()) {
                             reserve.setText("Reserve");
                             returned[0] = !returned[0];
-                            System.out.println("================================== We are in the Return");
                             dataBaseInfo.updateReturnedDate(list.get(clickedPosition).getId(), sharedPrefManager.readString("currentUserEmail", ""), commonFunctions.formattedDate(currentDate));
 
 
@@ -158,7 +157,6 @@ public class CarInfoFragment extends Fragment implements Popup.PopupListener{
                     Reserve reserve1 = new Reserve();
                     reserve1.setEmail(sharedPrefManager.readString("currentUserEmail", ""));
                     reserve1.setCarId(list.get(clickedPosition).getId());
-                    System.out.println("================================== We are in the reserve");
                     reserve1.setDate(commonFunctions.formattedDate(currentDate));
                     reserve1.setTime(commonFunctions.formattedTime(currentDate));
                     dataBaseInfo.insertReservation(reserve1);

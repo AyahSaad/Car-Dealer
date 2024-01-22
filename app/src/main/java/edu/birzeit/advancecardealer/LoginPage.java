@@ -23,8 +23,6 @@ public class LoginPage extends AppCompatActivity {
     SharedPrefManager sharedPrefManager;
     Intent intent;
 
-    private TextView textViewStoredEmail;
-    private TextView textViewStoredPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +80,6 @@ public class LoginPage extends AppCompatActivity {
                             startActivity(intent);
 
                         }else{
-                            sharedPrefManager.writeString("email",Type.getString(Type.getColumnIndex("EMAIL")));
                             sharedPrefManager.writeString("currentUserEmail",Email.getText().toString().toLowerCase());
                             sharedPrefManager.writeString("currentUserType",Type.getString(Type.getColumnIndex("TYPE")));
 

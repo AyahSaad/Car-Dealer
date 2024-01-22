@@ -54,7 +54,6 @@ public class SignPage extends AppCompatActivity {
         Intent checkIntent = getIntent();
         String getType = checkIntent.getStringExtra("Type");
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        System.out.println("------------------------------------------ " + getType);
         preferences = SharedPrefManager.getInstance(this);
         DataBaseHelper dataBaseSign = new DataBaseHelper(SignPage.this, "CarsDatabase", null, 1);
         EditText firstName = findViewById(R.id.firstName);

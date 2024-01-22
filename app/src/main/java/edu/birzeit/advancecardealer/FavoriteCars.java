@@ -27,7 +27,6 @@ public class FavoriteCars extends AppCompatActivity {
         Cursor favCursor = dataBaseLike.getFav();
         while (favCursor.moveToNext()){
             for(Car car : cars){
-                System.out.println("---------------- " + car.getColor() + "---------------- " +car.getName());
                 if ( !liked.contains(car) && car.getId() == favCursor.getInt(favCursor.getColumnIndex("CAR_ID"))){
                     liked.add(car);
                 }

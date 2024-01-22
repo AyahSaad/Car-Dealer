@@ -143,7 +143,6 @@ public class AdminOffers extends AppCompatActivity {
             );
             blank.setLayoutParams(typeTextViewParams);
 
-            //todo price offer
             rowLayout.setTag(id);
             SaveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -173,7 +172,6 @@ public class AdminOffers extends AppCompatActivity {
                                     for (Car cars: cars){
                                         if (cars.getId() == id){
                                             cars.setOffer(percentage / 100);
-                                            System.out.println("========= " + cars.getFactoryName() + "=========" +cars.getOffer());
 
                                         }
                                     }
