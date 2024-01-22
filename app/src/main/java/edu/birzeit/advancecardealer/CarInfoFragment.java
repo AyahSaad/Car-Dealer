@@ -1,21 +1,32 @@
 package edu.birzeit.advancecardealer;
 
 import static edu.birzeit.advancecardealer.CarJsonParser.cars;
+import static edu.birzeit.advancecardealer.FavoriteCars.liked;
 
+import android.app.Dialog;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,7 +34,7 @@ import java.util.List;
  * Use the {@link CarInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CarInfoFragment extends Fragment {
+public class CarInfoFragment extends Fragment implements Popup.PopupListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +48,9 @@ public class CarInfoFragment extends Fragment {
     private List<Car> list;
     private TextView positionCheck;
     private ImageView imageView;
+    public static boolean[] isConfirmed={false};
+
+
     SharedPrefManager sharedPrefManager;
     RequestOptions option;
 
@@ -47,6 +61,12 @@ public class CarInfoFragment extends Fragment {
         this.clickedPosition = position;
         this.list = list;
         option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
+
+    }
+    public void onConfirmation(boolean confirmed) {
+        isConfirmed[0] = confirmed;
+
+        // Save data to the database or perform any other actions
 
     }
 
@@ -88,10 +108,10 @@ public class CarInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final boolean[] likeStatus = {false};
+        final boolean[] returned = {false};
         sharedPrefManager = SharedPrefManager.getInstance(getActivity());
         DataBaseHelper dataBaseInfo = new DataBaseHelper(getActivity(), "CarsDatabase", null, 1);
-
-
         View rootView = inflater.inflate(R.layout.fragment_car_info, container, false);
         // Inflate the layout for this fragment
         imageView = rootView.findViewById(R.id.carsImagesViews);
@@ -106,9 +126,72 @@ public class CarInfoFragment extends Fragment {
         TextView offer = rootView.findViewById(R.id.textOffers);
         TextView doors = rootView.findViewById(R.id.textDoor);
         Button reserve = rootView.findViewById(R.id.ReserveButton);
-        //TextView name = rootView.findViewById(R.id.textName);
+        ImageView like = rootView.findViewById(R.id.likeButton);
+        Date currentDate = new Date();
+        Dialog  popUp = new Dialog(getActivity());
+        CommonFunctions commonFunctions = new CommonFunctions();
+        Cursor isReserved = dataBaseInfo.getReservation();
+        reserve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (returned[0] == true) {
+                    isConfirmed[0] = false;
+                    while (isReserved.moveToNext()) {
+                        if (isReserved.getString(isReserved.getColumnIndex("USER_EMAIL")).equals(sharedPrefManager.readString("currentUserEmail", "")) &&
+                                isReserved.getInt(isReserved.getColumnIndex("CAR_ID")) == list.get(clickedPosition).getId()) {
+                            reserve.setText("Reserve");
+                            returned[0] = !returned[0];
+                            System.out.println("================================== We are in the Return");
+                            dataBaseInfo.updateReturnedDate(list.get(clickedPosition).getId(), sharedPrefManager.readString("currentUserEmail", ""), commonFunctions.formattedDate(currentDate));
 
 
+                        }
+                    }
+                } else if (returned[0] == false) {
+
+
+                    dialog(clickedPosition, list);
+
+
+                    reserve.setText("Return");
+                    returned[0] = !returned[0];
+                    Reserve reserve1 = new Reserve();
+                    reserve1.setEmail(sharedPrefManager.readString("currentUserEmail", ""));
+                    reserve1.setCarId(list.get(clickedPosition).getId());
+                    System.out.println("================================== We are in the reserve");
+                    reserve1.setDate(commonFunctions.formattedDate(currentDate));
+                    reserve1.setTime(commonFunctions.formattedTime(currentDate));
+                    dataBaseInfo.insertReservation(reserve1);
+
+                }
+            }
+
+
+
+
+
+
+
+        });
+//        while (isReserved.moveToNext()){
+//            if(isReserved.getString(isReserved.getColumnIndex("USER_EMAIL")).equals(sharedPrefManager.readString("currentUserEmail","")) &&
+//                    isReserved.getInt(isReserved.getColumnIndex("CAR_ID")) == list.get(clickedPosition).getId()){
+//                reserve.setText("Return");
+//                reserve.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+//                        System.out.println("==================================== Current User " + currentDate.toString());
+//                        System.out.println("==================================== Current Car " + commonFunctions.formattedDate(currentDate));
+//                        System.out.println("==================================== Current Date " + commonFunctions.formattedTime(currentDate));
+//
+//                        //dataBaseInfo.updateReturnedDate(list.get(clickedPosition).getId(),sharedPrefManager.readString("currentUserEmail",""),commonFunctions.formattedDate(currentDate));
+//
+//                    }
+//                });
+//
+//            }
+//        }
         Glide.with(this).load(list.get(clickedPosition).getImage()).apply(option).into(imageView);
         name.setText(list.get(clickedPosition).getName());
         type.setText(list.get(clickedPosition).getType());
@@ -121,14 +204,49 @@ public class CarInfoFragment extends Fragment {
         price.setText(String.valueOf( (int)newPrice ));
         offer.setText(String.valueOf(list.get(clickedPosition).getOffer()));
         doors.setText(String.valueOf(list.get(clickedPosition).getDoorsCount()));
-        reserve.setOnClickListener(new View.OnClickListener() {
+//        reserve.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Reserve reserve1 = new Reserve();
+//                reserve1.setEmail(sharedPrefManager.readString("currentUserEmail",""));
+//                reserve1.setCarId(list.get(clickedPosition).getId());
+//                System.out.println("==================================== Current Date " + currentDate.toString());
+//                System.out.println("==================================== Current Date " + commonFunctions.formattedDate(currentDate));
+//                System.out.println("==================================== Current Time " + commonFunctions.formattedTime(currentDate));
+//                reserve1.setDate(commonFunctions.formattedDate(currentDate));
+//                reserve1.setTime(commonFunctions.formattedTime(currentDate));
+//                //todo: reserv table
+//                System.out.println(reserve1.toString());
+//                dataBaseInfo.insertReservation(reserve1);
+//
+//            }
+//        });
+        like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Reserve reserve1 = new Reserve();
-                //todo: reserv table
-                Favorite favorite = new Favorite(1,sharedPrefManager.readString("currentUserEmail",""),list.get(clickedPosition).getId());
-                dataBaseInfo.insertFav(favorite);
-               // dataBaseInfo.insertReservation(reserve1);
+                likeStatus[0] = !likeStatus[0];
+                Cursor cursor = dataBaseInfo.getFav();
+
+                if (likeStatus[0]){
+                    Favorite fav = new Favorite();
+                    fav.setCarId(list.get(clickedPosition).getId());
+                    fav.setUseremail(sharedPrefManager.readString("currentUserEmail",""));
+                    dataBaseInfo.insertFav(fav);
+
+                }else {
+                    while (cursor.moveToNext()){
+                        if (cursor.getString(cursor.getColumnIndex("USER_EMAIL")).equals(sharedPrefManager.readString("currentUserEmail","")) &&
+                             cursor.getInt(cursor.getColumnIndex("CAR_ID")) == list.get(clickedPosition).getId()){
+                            dataBaseInfo.unlike(sharedPrefManager.readString("currentUserEmail",""),list.get(clickedPosition).getId());
+                            for(Car fav : liked){
+                                if (fav.getId() ==  list.get(clickedPosition).getId()){
+                                    liked.remove(fav);
+                                }
+                            }
+                        }
+                    }
+
+                }
 
             }
         });
@@ -141,5 +259,12 @@ public class CarInfoFragment extends Fragment {
             return rootView;
 
     }
+    public void dialog(int clickedPosition, List<Car> List){
+        Popup popup = new Popup(clickedPosition,List,this);
+        popup.show(getActivity().getSupportFragmentManager(), null);
+
+    }
+
+
 }
 

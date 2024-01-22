@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 
 public class CustomerProfile extends AppCompatActivity {
+    private ImageView notification;
     private ScrollView scrollView;
     private ShapeableImageView profileImage;
     private ImageButton editButton;
@@ -68,6 +70,7 @@ public class CustomerProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_profile);
+        notification = findViewById(R.id.notification);
         editButton = findViewById(R.id.editButton);
         scrollView = findViewById(R.id.scrollView);
         sharedPrefManager = SharedPrefManager.getInstance(this);
@@ -120,6 +123,13 @@ public class CustomerProfile extends AppCompatActivity {
         Intent intent = getIntent();
         String currentUser = sharedPrefManager.readString("currentUserEmail","");
         Cursor cursorUser = dataBaseCustomerProfile.getEmail(currentUser);
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent notify = new Intent(CustomerProfile.this,Notific.class);
+                startActivity(notify);
+            }
+        });
 
         while (cursorUser.moveToNext()){
             viewPhone.setText(cursorUser.getString(cursorUser.getColumnIndex("PHONE")));
@@ -131,6 +141,14 @@ public class CustomerProfile extends AppCompatActivity {
             genderTextView.setText(cursorUser.getString(cursorUser.getColumnIndex("GENDER")));
             passwordTextView.setText(cursorUser.getString(cursorUser.getColumnIndex("PASSWORD")));
         }
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerProfile.this, Notific.class);
+                startActivity(intent);
+            }
+        });
 
         editFirstNameButton.setOnClickListener(new View.OnClickListener() {
             @Override

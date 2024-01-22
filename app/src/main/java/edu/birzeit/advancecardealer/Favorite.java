@@ -8,8 +8,7 @@ public class Favorite {
     public Favorite() {
     }
 
-    public Favorite(int id, String email, int carId) {
-        this.id = id;
+    public Favorite( String email, int carId) {
         this.email = email;
         this.carId = carId;
     }

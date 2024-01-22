@@ -34,7 +34,6 @@ public class LoginPage extends AppCompatActivity {
         Password = (EditText) findViewById(R.id.Password);
         logIn = (Button) findViewById(R.id.logIn);
         rememberMeCheckBox  = findViewById(R.id.RememberMe);
-        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         DataBaseHelper dataBaseLogin = new DataBaseHelper(LoginPage.this, "CarsDatabase", null, 1);
         sharedPrefManager = SharedPrefManager.getInstance(this);
         intent = new Intent(LoginPage.this, HomePage.class);

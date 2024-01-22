@@ -20,14 +20,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE USERS(EMAIL TEXT PRIMARY KEY, FIRST_NAME TEXT, LAST_NAME TEXT, PASSWORD TEXT, GENDER TEXT, COUNTRY TEXT, CITY TEXT, TYPE TEXT, PHONE TEXT,IMAGE TEXT)");
         sqLiteDatabase.execSQL("CREATE TABLE CARS(ID INTEGER PRIMARY KEY AUTOINCREMENT, FACTORY_NAME TEXT, TYPE TEXT, PRICE REAL, MODEL TEXT,NAME TEXT,OFFER REAL,YEAR TEXT,FUEL_TYPE TEXT, RATING REAL,ACCIDENT TEXT,IMAGE TEXT,SPARE TEXT,COLOR TEXT,DOORS INTEGER,COMPANY TEXT)");
-        sqLiteDatabase.execSQL("CREATE TABLE RESERVE(ID INTEGER PRIMARY KEY AUTOINCREMENT, DATE TEXT, TIME TEXT, USER_EMAIL TEXT, CAR_ID INTEGER,FOREIGN KEY (USER_EMAIL) REFERENCES USERS(EMAIL),FOREIGN KEY (CAR_ID) REFERENCES CARS(ID))");
-        sqLiteDatabase.execSQL("CREATE TABLE FAVORITE(ID INTEGER PRIMARY KEY AUTOINCREMENT,USER_EMAIL TEXT,CAR_ID INTEGER,FOREIGN KEY (USER_EMAIL) REFERENCES USERS(EMAIL),FOREIGN KEY (CAR_ID) REFERENCES CARS(ID))");
+        sqLiteDatabase.execSQL("CREATE TABLE RESERVE(DATE TEXT, TIME TEXT,RETURNED_DATE TEXT, USER_EMAIL TEXT, CAR_ID INTEGER,FOREIGN KEY (USER_EMAIL) REFERENCES USERS(EMAIL),FOREIGN KEY (CAR_ID) REFERENCES CARS(ID))");
+        sqLiteDatabase.execSQL("CREATE TABLE FAVORITE(USER_EMAIL TEXT,CAR_ID INTEGER,FOREIGN KEY (USER_EMAIL) REFERENCES USERS(EMAIL),FOREIGN KEY (CAR_ID) REFERENCES CARS(ID))");
         sqLiteDatabase.execSQL("CREATE TABLE ADMIN(ID INTEGER PRIMARY KEY AUTOINCREMENT,ADMIN_EMAIL TEXT,COMPANY TEXT,FOREIGN KEY (ADMIN_EMAIL) REFERENCES USERS(EMAIL))");
+        sqLiteDatabase.execSQL("CREATE TABLE NOTIFICATION(NOTIFICATION_TEXT TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
+    }
+    public void insertNotification(Notification notification){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("NOTIFICATION_TEXT", notification.getNotificationText());
+        sqLiteDatabase.insert("NOTIFICATION", null, contentValues);
     }
 
     public void insertUser(User user) {
@@ -71,7 +78,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void insertFav(Favorite favorite){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("ID",favorite.getId());
         contentValues.put("USER_EMAIL",favorite.getUseremail());
         contentValues.put("CAR_ID",favorite.getCarId());
         sqLiteDatabase.insert("FAVORITE", null, contentValues);
@@ -81,20 +87,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void insertReservation(Reserve reserve){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("ID",reserve.getId());
         contentValues.put("DATE",reserve.getDate());
         contentValues.put("TIME",reserve.getTime());
         contentValues.put("USER_EMAIL",reserve.getEmail());
         contentValues.put("CAR_ID",reserve.getCarId());
+        contentValues.put("RETURNED_DATE",reserve.getReturnedDate());
         sqLiteDatabase.insert("RESERVE", null, contentValues);
     }
 
-    public  void insertImage(byte [] image){
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("IMAGE",image);
-        sqLiteDatabase.insert("PROFILEIMAGE",null,contentValues);
-    }
 
 
     public boolean verifyLogin(String email, String password) {
@@ -115,9 +115,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery("SELECT * FROM USERS WHERE '"+firstName+"' = FIRST_NAME", null);
     }
-    public Cursor getProfile(){
+    public Cursor getNotification(){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        return sqLiteDatabase.rawQuery("SELECT * FROM PROFILEIMAGE", null);
+        return sqLiteDatabase.rawQuery("SELECT * FROM NOTIFICATION", null);
+    }
+
+    public Cursor getFav(){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM FAVORITE", null);
 
     }
     public Cursor getEmail(String Email){
@@ -177,6 +182,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int rowsDeleted = sqLiteDatabase.delete("USERS", whereClause, whereArgs);
         return rowsDeleted > 0;
     }
+
+    public boolean unlike(String email, int id) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String whereClause = "USER_EMAIL = ? AND CAR_ID = ?";
+        String[] whereArgs = {email, String.valueOf(id)};
+        int rowsDeleted = sqLiteDatabase.delete("FAVORITE", whereClause, whereArgs);
+        return rowsDeleted > 0;
+    }
+
 
     public void updatePhone(String email, String phone) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
@@ -263,5 +277,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("OFFER", offer);
         sqLiteDatabase.update("CARS", contentValues, "ID = ?", new String[]{String.valueOf(id)});
     }
+
+    public void updateReturnedDate(int carId, String currentUser, String returnedDate) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("RETURNED_DATE", returnedDate);
+        String whereClause = "CAR_ID = ? AND USER_EMAIL = ?";
+        String[] whereArgs = {String.valueOf(carId), currentUser};
+        sqLiteDatabase.update("RESERVE", contentValues, whereClause, whereArgs);
+    }
+
 
 }

@@ -31,8 +31,8 @@
                     android:onClick="onBackButtonClick"
                     app:srcCompat="@drawable/narrow_back"/>
 
-
                 <ImageView
+                    android:id="@+id/notification"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_alignParentEnd="true"
@@ -42,7 +42,6 @@
                     android:layout_marginBottom="5dp"
                     android:padding="1dp"
                     android:src="@drawable/ic_notification" />
-
             </RelativeLayout>
 
         </LinearLayout>

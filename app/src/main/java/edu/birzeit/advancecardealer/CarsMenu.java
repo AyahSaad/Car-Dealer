@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
@@ -42,5 +43,9 @@ public class CarsMenu extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter);
 
 
+    }
+    public void onBackButtonClick(View view) {
+        // Handle the back button click
+        onBackPressed();
     }
 }

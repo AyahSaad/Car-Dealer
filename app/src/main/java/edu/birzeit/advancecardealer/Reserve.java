@@ -1,32 +1,36 @@
 package edu.birzeit.advancecardealer;
 
 public class Reserve {
-    int id;
     int carId;
    String email;
     String date;
     String time;
 
+    public String getReturnedDate() {
+        return ReturnedDate;
+    }
+
+    public void setReturnedDate(String returnedDate) {
+        ReturnedDate = returnedDate;
+    }
+
+    String ReturnedDate;
+
     public Reserve() {
     }
 
 
-    public Reserve(int id,String email, int carId, String date, String time) {
-        this.id = id;
+    public Reserve(String email, int carId, String date, String time,String ReturnedDate) {
+
         this.carId = carId;
         this.email = email;
         this.date = date;
         this.time = time;
+        this.ReturnedDate = ReturnedDate;
     }
 
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
 
 
@@ -58,11 +62,12 @@ public class Reserve {
     @Override
     public String toString() {
         return "Reserve{" +
-                "id=" + id +
+
                 ", CarId=" + carId +
                 ", email='" + email + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
+                ", Return Date " + ReturnedDate+'\''+
                 '}';
     }
 

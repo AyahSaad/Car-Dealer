@@ -2,10 +2,21 @@ package edu.birzeit.advancecardealer;
 import static edu.birzeit.advancecardealer.CarJsonParser.cars;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +32,7 @@ public class AdminOffers extends AppCompatActivity {
     private ScrollView scrollView;
     private static final String Toast_Text1 = "Please Enter the Offer Details";
     DataBaseHelper dataBaseAddOffers = new DataBaseHelper(AdminOffers.this, "CarsDatabase", null, 1);
+    SharedPrefManager preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +44,14 @@ public class AdminOffers extends AppCompatActivity {
         EditText Car_Name = findViewById(R.id.Car_Name);
         Button Search = findViewById(R.id.Search);
         SearchButtonListener(Search, Factory_name, Car_Name , AddOfferLayout );
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (ContextCompat.checkSelfPermission(AdminOffers.this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(AdminOffers.this, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, 101);
+            }
+        }
+
     }
     private void SearchButtonListener(Button Search, EditText Factory_name, EditText Car_Name, LinearLayout AddOfferLayout ) {
         Search.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +120,7 @@ public class AdminOffers extends AppCompatActivity {
             String carName = offerCursor.getString(offerCursor.getColumnIndex("NAME"));
             String price = offerCursor.getString(offerCursor.getColumnIndex("PRICE"));
             String offer = offerCursor.getString(offerCursor.getColumnIndex("OFFER"));
+            String company =  offerCursor.getString(offerCursor.getColumnIndex("COMPANY"));
 
             // Set text for TextViews based on the retrieved data
             factoryNameTextView.setText("Factory Name: " + factoryName);
@@ -126,9 +147,13 @@ public class AdminOffers extends AppCompatActivity {
                                     double newPrice = originalPrice - discount;
 
                                     // Update the database with the new offer
-
                                     dataBaseAddOffers.addOffer(id, percentage / 100);
-
+                                    // Make notification
+                                    String notifyText = company + "Adds New offer For " + carName+"\n Check it Now!";
+                                    makeNotification(notifyText);
+                                    Notification notification = new Notification();
+                                    notification.setNotificationText(notifyText);
+                                    dataBaseAddOffers.insertNotification(notification);
 
                                     for (Car cars: cars){
                                         if (cars.getId() == id){
@@ -172,6 +197,41 @@ public class AdminOffers extends AppCompatActivity {
             rowLayout.addView(SaveButton);
         }
         return rowLayout;
+    }
+
+    public void makeNotification(String notifyText) {
+        String chanelID = "CHANEL_ID_NOTIFICATION";
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(getApplicationContext(), chanelID);
+        builder.setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("New Offer Added, Check In!")
+                .setContentText(notifyText)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        preferences = SharedPrefManager.getInstance(this);
+        String currentUser = preferences.readString("currentUserType","");
+        if (currentUser.equals("User")){
+            Intent intent = new Intent(getApplicationContext(), Notific.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // intent.putExtra("data", "jidiefifhih");
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
+            builder.setContentIntent(pendingIntent);
+        }
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(chanelID);
+            if (notificationChannel == null) {
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                notificationChannel = new NotificationChannel(chanelID, "chanel", importance);
+                notificationChannel.setLightColor(Color.GREEN);
+                notificationChannel.enableVibration(true);
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        notificationManager.notify(0, builder.build());
     }
 
     public void onBackButtonClick(View view) {

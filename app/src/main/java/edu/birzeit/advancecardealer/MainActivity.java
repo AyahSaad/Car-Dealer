@@ -54,22 +54,22 @@ public class MainActivity extends AppCompatActivity {
 //        dataBaseMain.insertCar(car2);
 //        dataBaseMain.insertCar(car3);
 
-        Reserve reserve1 = new Reserve(1, "ayah@saad.com", 1, "2023-01-01", "10:00 AM");
-        Reserve reserve2 = new Reserve(2, "ayah@saad.com", 2, "2023-02-02", "11:30 AM");
-        Reserve reserve3 = new Reserve(3, "ayah@saad.com", 3, "2023-03-03", "02:15 PM");
-        Reserve reserve4 = new Reserve(4, "ayah@saad.com", 1, "2023-04-04", "04:45 PM");
-        Reserve reserve5 = new Reserve(5, "ayah@saad.com", 2, "2023-05-05", "08:00 AM");
-        Reserve reserve6 = new Reserve(6, "ayah@saad.com", 3, "2023-06-06", "01:30 PM");
-        Reserve reserve7 = new Reserve(7, "ayah@saad.com", 1, "2023-07-07", "03:45 PM");
-        Reserve reserve8 = new Reserve(8, "ayah@saad.com", 2, "2023-08-08", "06:00 PM");
-        dataBaseMain.insertReservation(reserve1);
-        dataBaseMain.insertReservation(reserve2);
-        dataBaseMain.insertReservation(reserve3);
-        dataBaseMain.insertReservation(reserve4);
-        dataBaseMain.insertReservation(reserve5);
-        dataBaseMain.insertReservation(reserve6);
-        dataBaseMain.insertReservation(reserve7);
-        dataBaseMain.insertReservation(reserve8);
+//        Reserve reserve1 = new Reserve( "ayah@saad.com", 1, "2023-01-01", "10:00 AM","2023-02-01");
+//        Reserve reserve2 = new Reserve( "ayah@saad.com", 2, "2023-02-02", "11:30 AM","2023-03-01");
+//        Reserve reserve3 = new Reserve( "ayah@saad.com", 3, "2023-03-03", "02:15 PM","2023-04-01");
+//        Reserve reserve4 = new Reserve( "ayah@saad.com", 1, "2023-04-04", "04:45 PM","2023-05-01");
+//        Reserve reserve5 = new Reserve( "ayah@saad.com", 2, "2023-05-05", "08:00 AM","2023-06-01");
+//        Reserve reserve6 = new Reserve( "ayah@saad.com", 3, "2023-06-06", "01:30 PM","2023-07-01");
+//        Reserve reserve7 = new Reserve( "ayah@saad.com", 1, "2023-07-07", "03:45 PM","2023-08-01");
+//        Reserve reserve8 = new Reserve( "ayah@saad.com", 2, "2023-08-08", "06:00 PM","2023-09-01");
+//        dataBaseMain.insertReservation(reserve1);
+//        dataBaseMain.insertReservation(reserve2);
+//        dataBaseMain.insertReservation(reserve3);
+//        dataBaseMain.insertReservation(reserve4);
+//        dataBaseMain.insertReservation(reserve5);
+//        dataBaseMain.insertReservation(reserve6);
+//        dataBaseMain.insertReservation(reserve7);
+//        dataBaseMain.insertReservation(reserve8);
 
 
 
@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 getStarted.setBackgroundColor(Color.BLACK);
                 ConnectionAsyncTask connectionAsyncTask = new ConnectionAsyncTask(MainActivity.this,MainActivity.this,dataBaseMain);
-                connectionAsyncTask.execute("https://cardealer.free.beeceptor.com/cars");
+                //connectionAsyncTask.execute("https://cardealer.free.beeceptor.com/cars");
+                connectionAsyncTask.execute("https://carss.free.beeceptor.com/cars1");
             }
         });
 

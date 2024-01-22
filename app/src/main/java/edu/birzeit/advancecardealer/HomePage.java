@@ -35,7 +35,6 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        DataBaseHelper dataBaseHome = new DataBaseHelper(HomePage.this, "CarsDatabase", null, 1);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -63,7 +62,7 @@ public class HomePage extends AppCompatActivity {
 
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.Favorites) {
-                    intent = new Intent(HomePage.this, HomePage.class);
+                    intent = new Intent(HomePage.this, FavoriteCars.class);
 
                     Toast.makeText(HomePage.this, "Favorites", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
